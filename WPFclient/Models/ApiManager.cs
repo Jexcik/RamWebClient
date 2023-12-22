@@ -32,7 +32,7 @@ namespace WPFclient.Models
                 }
                 else
                 {
-                    MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
+                    //MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
                 }
 
             }
@@ -44,7 +44,7 @@ namespace WPFclient.Models
         }
 
         /// <summary>
-        /// Метод для скачивания файла с сервера
+        /// Метод для скачивания обновлений с сервера
         /// </summary>
         /// <param name="httpClient">Экземпляр Http клиента</param>
         /// <param name="serverUrl">ссылка на метод API для запроса</param>

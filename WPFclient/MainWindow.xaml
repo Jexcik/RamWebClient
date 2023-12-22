@@ -57,6 +57,7 @@
 
         <Button 
             Content="Авторизоваться"
+            IsEnabled="False"
             Grid.Row="0"
             Command="{Binding Path=AuthorizationCommand}"
             VerticalAlignment="Top"
