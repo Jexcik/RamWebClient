@@ -75,6 +75,7 @@
         </GridSplitter>
 
         <Button Content="Обновить плагин"
+                IsEnabled="False"
                 Grid.Row="1"
                 Command="{Binding Path=UpdateCommand}"
                 VerticalAlignment="Bottom" 
@@ -85,6 +86,9 @@
         <TextBox 
             Grid.Row="0"
             Text="{Binding Path=TextInfo}"
+            FontStyle="Normal"
+            FontWeight="Medium"
+            FontSize="12"
             VerticalAlignment="Bottom"
             Height="150"
             Margin="10,10,10,10"
