@@ -50,12 +50,11 @@ namespace WPFclient.Models
         /// <param name="serverUrl">ссылка на метод API для запроса</param>
         /// <param name="filePath">Путь к файлу для скачивания</param>
         /// <returns></returns>
-        public static async Task DownloadFileAsync(HttpClient httpClient, string serverUrl, string filePath)
+        public static async Task DownloadFileAsync(HttpClient httpClient, string serverUrl, string filePath, string localFolderPath)
         {
             using (HttpClient client = new HttpClient())
             {
                 string downloadUrl = $"{serverUrl}?file={Uri.EscapeDataString(filePath)}";
-                string localFolderPath = @"C:\Users\e.egorov\AppData\Roaming\Autodesk\Revit\Addins\2022\RibbonRAMData\HideScheduleColumns\";
 
                 HttpResponseMessage response = await client.GetAsync(downloadUrl);
 

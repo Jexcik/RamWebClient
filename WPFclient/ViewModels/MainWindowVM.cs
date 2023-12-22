@@ -144,7 +144,7 @@ namespace WPFclient.ViewModels
                 }
                 else
                 {
-                    await ApiManager.DownloadFileAsync(httpClient, ServerUrl, updateFilePath);
+
                 }
             }
         }
@@ -175,20 +175,21 @@ namespace WPFclient.ViewModels
                 //Получение актуальной информации о файлах на сервере
                 List<FileData> serverLastModified = await ApiManager.GetServerFilesLastModifiedDateAsync(httpClient, ServerUrl);
 
-
                 //Получение локальной даты последнего изменения файла
-                List<DateTime> localLastModified = new List<DateTime>()
+                List<DateTime> localLastModified = new List<DateTime>();
+
+                foreach (FileData file in serverLastModified)
                 {
-                    File.GetLastWriteTime(System.Configuration.ConfigurationSettings.AppSettings["Link1"]),
-                    File.GetLastWriteTime(System.Configuration.ConfigurationSettings.AppSettings["Link2"])
-                };
+                    string localFilePath = $"{file.LocalFileFolder}\\{file.FileName}.dll";
+                    localLastModified.Add(File.GetLastWriteTime(localFilePath));
+                }
 
                 //Сравнивание дат
                 for (int i = 0; i < serverLastModified.Count; i++)
                 {
                     if (serverLastModified[i].Date > localLastModified[i])
                     {
-                        await ApiManager.DownloadFileAsync(httpClient, ServerUrl, serverLastModified[i].FilePath);
+                        await ApiManager.DownloadFileAsync(httpClient, ServerUrl, serverLastModified[i].FilePath, serverLastModified[i].LocalFileFolder);
                     }
                 }
             }

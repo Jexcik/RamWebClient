@@ -10,7 +10,7 @@ namespace WPFclient.ViewModels
 {
     public class RegisterVM : ViewModel
     {
-        private readonly string apiBaseUrl = "http://localhost:12345/api/account/register";
+        private readonly string apiBaseUrl = "http://a22946-8c78.g.d-f.pw/api/account/register";
         #region TextBox
         private string login;
         public string Login
