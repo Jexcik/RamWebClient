@@ -189,7 +189,7 @@ namespace WPFclient.ViewModels
                 {
                     if (serverLastModified[i].Date > localLastModified[i])
                     {
-                        await ApiManager.DownloadFileAsync(httpClient, ServerUrl, serverLastModified[i].FilePath, serverLastModified[i].LocalFileFolder);
+                        await ApiManager.DownloadFileAsync(serverLastModified[i].FileName, serverLastModified[i].LocalFileFolder);
                         TextInfo += serverLastModified[i].ToString();
                     }
                 }

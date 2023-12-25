@@ -12,6 +12,7 @@ namespace WPFclient.Models
 {
     public static class ApiManager
     {
+        private static readonly HttpClient httpClient = new HttpClient();
         /// <summary>
         /// Метод для получения информации о файле на сервере
         /// </summary>
@@ -48,19 +49,19 @@ namespace WPFclient.Models
         /// </summary>
         /// <param name="httpClient">Экземпляр Http клиента</param>
         /// <param name="serverUrl">ссылка на метод API для запроса</param>
-        /// <param name="filePath">Путь к файлу для скачивания</param>
+        /// <param name="fileName">Путь к файлу для скачивания</param>
         /// <returns></returns>
-        public static async Task DownloadFileAsync(HttpClient httpClient, string serverUrl, string filePath, string localFolderPath)
+        public static async Task DownloadFileAsync(string fileName, string localFolderPath)
         {
-            using (HttpClient client = new HttpClient())
+            string serverUrl = "http://a22946-8c78.g.d-f.pw/api/file";
+            try
             {
-                string downloadUrl = $"{serverUrl}?file={Uri.EscapeDataString(filePath)}";
+                string downloadUrl = $"{serverUrl}?fileName={fileName}";
 
-                HttpResponseMessage response = await client.GetAsync(downloadUrl);
+                HttpResponseMessage response = await httpClient.GetAsync(downloadUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string fileName = Path.GetFileName(filePath);
                     string localFilePath = Path.Combine(localFolderPath, fileName);
 
                     using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
@@ -75,6 +76,11 @@ namespace WPFclient.Models
                     MessageBox.Show($"Ошибка при скачивании: {response.StatusCode}");
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при загрузке/сохранении файла: {ex.Message}");
+            }
+
         }
     }
 }
