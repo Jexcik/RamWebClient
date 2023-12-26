@@ -158,16 +158,6 @@ namespace WPFclient.ViewModels
             updateTimer = new DispatcherTimer();
         }
 
-        public List<FileData> ReadRepositoriesFromXml(string xmlFilePath)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<FileData>));
-
-            using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
-            {
-                return (List<FileData>)serializer.Deserialize(fileStream);
-            }
-        }
-
         private async void UpdateTimer_Tick(object sender, EventArgs e)
         {
             try

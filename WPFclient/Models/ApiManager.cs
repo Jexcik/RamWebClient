@@ -7,12 +7,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace WPFclient.Models
 {
     public static class ApiManager
     {
-        private static readonly HttpClient httpClient = new HttpClient();
         /// <summary>
         /// Метод для получения информации о файле на сервере
         /// </summary>
@@ -31,11 +31,10 @@ namespace WPFclient.Models
                     //Парсим ответ сервера и возвращаем дату сохранения файлов
                     saveDates = await response.Content.ReadAsAsync<List<FileData>>();
                 }
-                else
+                else 
                 {
-                    //MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
+                    MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
                 }
-
             }
             catch (Exception ex)
             {
@@ -58,22 +57,25 @@ namespace WPFclient.Models
             {
                 string downloadUrl = $"{serverUrl}?fileName={fileName}";
 
-                HttpResponseMessage response = await httpClient.GetAsync(downloadUrl);
-
-                if (response.IsSuccessStatusCode)
+                using (HttpClient httpClient = new HttpClient())
+                using (HttpResponseMessage response = await httpClient.GetAsync(downloadUrl))
                 {
-                    string localFilePath = Path.Combine(localFolderPath, fileName);
 
-                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
-                        fileStream = new FileStream(localFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    if (response.IsSuccessStatusCode)
                     {
-                        await contentStream.CopyToAsync(fileStream);
+                        string localFilePath = Path.Combine(localFolderPath, $"{fileName}.dll");
+
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync())
+                        using (FileStream fileStream = new FileStream(localFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            await contentStream.CopyToAsync(fileStream);
+                        }
+                        MessageBox.Show($"Файл {fileName} успешно скачан");
                     }
-                    MessageBox.Show($"Файл {fileName} успешно скачан");
-                }
-                else
-                {
-                    MessageBox.Show($"Ошибка при скачивании: {response.StatusCode}");
+                    else
+                    {
+                        MessageBox.Show($"Ошибка при скачивании: {response.StatusCode}");
+                    }
                 }
             }
             catch (Exception ex)
@@ -82,5 +84,15 @@ namespace WPFclient.Models
             }
 
         }
+        public static List<FileData> ReadRepositoriesFromXml(string xmlFilePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<FileData>));
+
+            using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
+            {
+                return (List<FileData>)serializer.Deserialize(fileStream);
+            }
+        }
+
     }
 }
