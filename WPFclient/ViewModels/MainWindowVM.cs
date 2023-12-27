@@ -15,10 +15,6 @@ namespace WPFclient.ViewModels
 {
     public class MainWindowVM : ViewModel
     {
-        private const string ServerUrl = "http://a22946-8c78.g.d-f.pw/api/saveDates";
-
-        private readonly HttpClient httpClient;
-
         #region Таймер
         private DispatcherTimer updateTimer;
 
@@ -153,7 +149,7 @@ namespace WPFclient.ViewModels
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
-            httpClient = new HttpClient();
+
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
         }
@@ -163,7 +159,7 @@ namespace WPFclient.ViewModels
             try
             {
                 //Получение актуальной информации о файлах на сервере
-                List<FileData> serverLastModified = await ApiManager.GetServerFilesLastModifiedDateAsync(httpClient, ServerUrl);
+                List<FileData> serverLastModified = await ApiManager.GetServerFilesLastModifiedDateAsync();
 
                 //Получение локальной даты последнего изменения файла
                 List<DateTime> localLastModified = new List<DateTime>();

@@ -18,22 +18,26 @@ namespace WPFclient.Models
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns>Возвращает информацию о файле на сервере</returns>
-        public static async Task<List<FileData>> GetServerFilesLastModifiedDateAsync(HttpClient httpClient, string serverUrl)
+        public static async Task<List<FileData>> GetServerFilesLastModifiedDateAsync()
         {
+            string serverUrl = "http://a22946-8c78.g.d-f.pw/api/saveDates";
+
             List<FileData> saveDates = new List<FileData>();
             try
             {
                 //Выполняем асинхронный GET-запрос к серверу для получения списка дат сохранения файлов
-                HttpResponseMessage response = await httpClient.GetAsync(serverUrl);
-
-                if (response.IsSuccessStatusCode)
+                using (HttpClient httpClient = new HttpClient())
+                using (HttpResponseMessage response = await httpClient.GetAsync(serverUrl))
                 {
-                    //Парсим ответ сервера и возвращаем дату сохранения файлов
-                    saveDates = await response.Content.ReadAsAsync<List<FileData>>();
-                }
-                else 
-                {
-                    MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //Парсим ответ сервера и возвращаем дату сохранения файлов
+                        saveDates = await response.Content.ReadAsAsync<List<FileData>>();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Не удалось получить список дат сохранений файлов!");
+                    }
                 }
             }
             catch (Exception ex)
@@ -55,6 +59,11 @@ namespace WPFclient.Models
             string serverUrl = "http://a22946-8c78.g.d-f.pw/api/file";
             try
             {
+                if (!Directory.Exists(localFolderPath))
+                {
+                    Directory.CreateDirectory(localFolderPath);
+                }
+
                 string downloadUrl = $"{serverUrl}?fileName={fileName}";
 
                 using (HttpClient httpClient = new HttpClient())
@@ -82,7 +91,6 @@ namespace WPFclient.Models
             {
                 MessageBox.Show($"Произошла ошибка при загрузке/сохранении файла: {ex.Message}");
             }
-
         }
         public static List<FileData> ReadRepositoriesFromXml(string xmlFilePath)
         {
