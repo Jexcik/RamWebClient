@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
@@ -57,11 +55,15 @@ namespace WPFclient.Models
         public static async Task DownloadFileAsync(string fileName, string localFolderPath)
         {
             string serverUrl = "http://a22946-8c78.g.d-f.pw/api/file";
+
+            string username = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile).Split('\\').Last();
+
+            localFolderPath = localFolderPath.Replace("%username%", username);
             try
             {
-                if (!Directory.Exists(localFolderPath))
+                if (!Directory.Exists($@"{localFolderPath}\data"))
                 {
-                    Directory.CreateDirectory(localFolderPath);
+                    Directory.CreateDirectory($@"{localFolderPath}\data");
                 }
 
                 string downloadUrl = $"{serverUrl}?fileName={fileName}";
@@ -69,10 +71,17 @@ namespace WPFclient.Models
                 using (HttpClient httpClient = new HttpClient())
                 using (HttpResponseMessage response = await httpClient.GetAsync(downloadUrl))
                 {
-
                     if (response.IsSuccessStatusCode)
                     {
-                        string localFilePath = Path.Combine(localFolderPath, $"{fileName}.dll");
+                        string localFilePath = "default";
+                        if (fileName.Contains("dll"))
+                        {
+                            localFilePath = Path.Combine(localFolderPath, fileName);
+                        }
+                        else
+                        {
+                            localFilePath = Path.Combine($@"{localFolderPath}\data\", fileName);
+                        }
 
                         using (Stream contentStream = await response.Content.ReadAsStreamAsync())
                         using (FileStream fileStream = new FileStream(localFilePath, FileMode.Create, FileAccess.Write, FileShare.None))

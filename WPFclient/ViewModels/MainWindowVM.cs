@@ -30,7 +30,7 @@ namespace WPFclient.ViewModels
             if (IsEveryTenMinutes)
             {
                 updateTimer.Tick -= UpdateTimer_Tick;
-                updateTimer.Interval = TimeSpan.FromSeconds(30);
+                updateTimer.Interval = TimeSpan.FromSeconds(600);
                 updateTimer.Tick += UpdateTimer_Tick;
             }
             if (IsEachHour)
@@ -169,13 +169,23 @@ namespace WPFclient.ViewModels
                     string localFilePath = $"{file.LocalFileFolder}\\{file.FileName}.dll";
                     localLastModified.Add(File.GetLastWriteTime(localFilePath));
                 }
+                string[] fileExist = new string[]
+                {
+                    ".dll",
+                    ".txt",
+                    ".png",
+                };
 
                 //Сравнивание дат
                 for (int i = 0; i < serverLastModified.Count; i++)
                 {
                     if (serverLastModified[i].Date > localLastModified[i])
                     {
-                        await ApiManager.DownloadFileAsync(serverLastModified[i].FileName, serverLastModified[i].LocalFileFolder);
+                        for (int j = 0; j < 3; j++)
+                        {
+                            await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
+                        }
+
                         TextInfo += serverLastModified[i].ToString();
                     }
                 }
