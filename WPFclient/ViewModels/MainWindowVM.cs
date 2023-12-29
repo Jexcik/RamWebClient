@@ -166,12 +166,13 @@ namespace WPFclient.ViewModels
 
                 foreach (FileData file in serverLastModified)
                 {
-                    string localFilePath = $"{file.LocalFileFolder}\\{file.FileName}.dll";
+                    string localFilePath = $"{file.LocalFileFolder.Replace("%username%", ApiManager.GetLocalUserName())}\\{file.FileName}.dll";
                     localLastModified.Add(File.GetLastWriteTime(localFilePath));
                 }
                 string[] fileExist = new string[]
                 {
                     ".dll",
+                    ".addin",
                     ".txt",
                     ".png",
                 };
@@ -181,7 +182,13 @@ namespace WPFclient.ViewModels
                 {
                     if (serverLastModified[i].Date > localLastModified[i])
                     {
-                        for (int j = 0; j < 3; j++)
+                        int counter = 3;
+                        if (serverLastModified[i].FileName.Contains("RibbonRAM"))
+                        {
+                            counter = 2;
+                        }
+
+                        for (int j = 0; j < counter; j++)
                         {
                             await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
                         }

@@ -56,7 +56,7 @@ namespace WPFclient.Models
         {
             string serverUrl = "http://a22946-8c78.g.d-f.pw/api/file";
 
-            string username = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile).Split('\\').Last();
+            string username = GetLocalUserName();
 
             localFolderPath = localFolderPath.Replace("%username%", username);
             try
@@ -74,7 +74,7 @@ namespace WPFclient.Models
                     if (response.IsSuccessStatusCode)
                     {
                         string localFilePath = "default";
-                        if (fileName.Contains("dll"))
+                        if (fileName.Contains("dll") || fileName.Contains("addin"))
                         {
                             localFilePath = Path.Combine(localFolderPath, fileName);
                         }
@@ -101,6 +101,12 @@ namespace WPFclient.Models
                 MessageBox.Show($"Произошла ошибка при загрузке/сохранении файла: {ex.Message}");
             }
         }
+
+        public static string GetLocalUserName()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile).Split('\\').Last();
+        }
+
         public static List<FileData> ReadRepositoriesFromXml(string xmlFilePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<FileData>));
