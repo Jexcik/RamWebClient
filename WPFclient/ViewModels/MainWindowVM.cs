@@ -169,10 +169,9 @@ namespace WPFclient.ViewModels
                     string localFilePath = $"{file.LocalFileFolder.Replace("%username%", ApiManager.GetLocalUserName())}\\{file.FileName}.dll";
                     localLastModified.Add(File.GetLastWriteTime(localFilePath));
                 }
-                string[] fileExist = new string[]
+                List<string> fileExist = new List<string>
                 {
                     ".dll",
-                    ".addin",
                     ".txt",
                     ".png",
                 };
@@ -185,6 +184,8 @@ namespace WPFclient.ViewModels
                         int counter = 3;
                         if (serverLastModified[i].FileName.Contains("RibbonRAM"))
                         {
+                            fileExist.Clear();
+                            fileExist.AddRange(new string[] { ".dll", ".addin" });
                             counter = 2;
                         }
 
