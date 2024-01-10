@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -144,12 +145,65 @@ namespace WPFclient.ViewModels
                 }
             }
         }
+
+        public ICommand UpdateCommand { get; }
+        private async void Update(object parameter)
+        {
+            try
+            {
+                //Получение актуальной информации о файлах на сервере
+                List<FileData> serverLastModified = await ApiManager.GetServerFilesLastModifiedDateAsync();
+
+                //Получение локальной даты последнего изменения файла
+                List<DateTime> localLastModified = new List<DateTime>();
+
+                foreach (FileData file in serverLastModified)
+                {
+                    string localFilePath = $"{file.LocalFileFolder.Replace("%username%", ApiManager.GetLocalUserName())}\\{file.FileName}.dll";
+                    localLastModified.Add(File.GetLastWriteTime(localFilePath));
+                }
+                List<string> fileExist = new List<string>
+                {
+                    ".dll",
+                    ".txt",
+                    ".png",
+                };
+
+                //Сравнивание дат
+                for (int i = 0; i < serverLastModified.Count; i++)
+                {
+                    if (serverLastModified[i].Date > localLastModified[i])
+                    {
+                        int counter = 3;
+                        if (serverLastModified[i].FileName.Contains("RibbonRAM"))
+                        {
+                            fileExist.Clear();
+                            fileExist.AddRange(new string[] { ".dll", ".addin" });
+                            counter = 2;
+                        }
+
+                        for (int j = 0; j < counter; j++)
+                        {
+                            await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
+                        }
+
+                        TextInfo += serverLastModified[i].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при проверки обновлений: {ex.Message}");
+            }
+
+        }
         #endregion
 
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
 
+            UpdateCommand = new RelayCommand(Update, p=>true);
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
         }
@@ -198,7 +252,6 @@ namespace WPFclient.ViewModels
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при проверки обновлений: {ex.Message}");

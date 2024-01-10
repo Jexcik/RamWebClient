@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Windows;
 using System.Windows.Input;
 using WPFclient.Infrastructure.Commands;
