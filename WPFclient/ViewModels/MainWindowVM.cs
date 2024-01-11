@@ -121,6 +121,12 @@ namespace WPFclient.ViewModels
                 OnPropertyChanged(nameof(TextInfo));
             }
         }
+
+        private string version = "Версия модуля:1.0";
+        public string Version
+        {
+            get => version;
+        }
         #endregion
 
         #region Command
@@ -203,7 +209,7 @@ namespace WPFclient.ViewModels
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
 
-            UpdateCommand = new RelayCommand(Update, p=>true);
+            UpdateCommand = new RelayCommand(Update, p => true);
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
         }

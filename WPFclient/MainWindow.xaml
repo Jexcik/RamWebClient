@@ -53,6 +53,15 @@
             </Grid>
         </GroupBox>
 
+        <Label 
+            Content="{Binding Path=Version}"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Grid.Row="0" 
+            FontWeight="Bold">
+        </Label>
+        
         <Button 
             Content="Авторизоваться"
             IsEnabled="False"

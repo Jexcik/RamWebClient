@@ -12,7 +12,20 @@ namespace WPFclient.Models
 
         public override string ToString()
         {
-            return $"В плагине {FileName} добавлены следующие изменения {ChangeInfo}\n\n";
+            return $"В плагине {TranslateText(FileName)} добавлены следующие изменения: {ChangeInfo}\n\n";
+        }
+
+        private string TranslateText(string fileName)
+        {
+            switch (fileName)
+            {
+                case "HideScheduleColumns": return "ВРС";
+                case "ReinforcementColumnarFoundations": return "Армирование фундамента";
+                case "FillTitleBlock": return "Заполнить штамп";
+                case "RibbonRAM": return "Панель с инструментами";
+                default:
+                    return "";
+            }
         }
     }
 }
