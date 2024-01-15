@@ -1,21 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using System.Xml.Serialization;
 using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
+using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows.Controls;
+using System.Security.Cryptography.X509Certificates;
 
 namespace WPFclient.ViewModels
 {
     public class MainWindowVM : ViewModel
     {
+        #region Трей
+        public ICommand TrayIconClickCommand { get; set; }
+        private void TrayIconClick(object parameter)
+        {
+            //Логика обработки клика на значке в трее
+            OpenMainWindow();
+        }
+        private void  OpenMainWindow()
+        {
+            OnOpenMainWindow?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler OnOpenMainWindow;
+        #endregion
+
         #region Таймер
         private DispatcherTimer updateTimer;
 
@@ -208,10 +223,11 @@ namespace WPFclient.ViewModels
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
-
             UpdateCommand = new RelayCommand(Update, p => true);
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
+
+            TrayIconClickCommand = new RelayCommand(TrayIconClick, p => true);
         }
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)
