@@ -14,33 +14,38 @@ namespace WPFclient.Views
     public partial class MainWindow : Window
     {
         private TaskbarIcon notifyIcon;
+        private const string iconPath = @"C:\Users\e.egorov\Source\Repos\RamWebClient\WPFclient\Resources\logoRAM.ico";
         MainWindowVM viewModel;
         public MainWindow()
         {
             InitializeComponent();
             viewModel = new MainWindowVM();
             DataContext = viewModel;
-            InitializeTrayIcon();
+            InitializeTray();
         }
 
-        private void InitializeTrayIcon()
+        private void InitializeTray()
         {
             //Инициализация TaskBarIcon
             notifyIcon = new TaskbarIcon();
-            notifyIcon.Icon = new Icon(@"C:\Users\e.egorov\Source\Repos\RamWebClient\WPFclient\Resources\logoRAM.ico");
+            notifyIcon.Icon = new Icon(iconPath);
             notifyIcon.ToolTipText = "Launcher";
+            notifyIcon.LeftClickCommand = viewModel.LeftClickCommand;
 
             //Создаем меню и связываем его с командой
             var trayContextMenu = new ContextMenu();
+
             MenuItem mi_Open = new MenuItem();
             mi_Open.Header = "Открыть";
-            mi_Open.Command = viewModel.TrayIconClickCommand;
-            trayContextMenu.Items.Add(mi_Open);
+            mi_Open.Command = viewModel.TrayOpenClickCommand;
 
-            notifyIcon.TrayLeftMouseDown += (sender, e) =>
-            {
-                ShowNotification("Заголовок уведомления", "Текст уведомления");
-            };
+            MenuItem mi_Close = new MenuItem();
+            mi_Close.Header = "Выход";
+            mi_Close.Command = viewModel.TrayCloseClickCommand;
+
+            trayContextMenu.Items.Add(mi_Open);
+            trayContextMenu.Items.Add(mi_Close);
+
             notifyIcon.ContextMenu = trayContextMenu;
 
             //Подписка на событие открытия основного окна
@@ -48,7 +53,12 @@ namespace WPFclient.Views
             {
                 //Показать основное окно
                 this.Show();
+                this.WindowState = WindowState.Normal;
+                this.Activate();
             };
+            viewModel.OnCloseMainWindow += (sender, args) => this.Close();
+
+            viewModel.OnShowNotification += (sender, args) => ShowNotification("Revit", viewModel.TextInfo);
         }
 
         private void ShowNotification(string title, string message)

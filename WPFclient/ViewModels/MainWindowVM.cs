@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -9,26 +8,33 @@ using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
-using Hardcodet.Wpf.TaskbarNotification;
-using System.Windows.Controls;
-using System.Security.Cryptography.X509Certificates;
 
 namespace WPFclient.ViewModels
 {
     public class MainWindowVM : ViewModel
     {
         #region Трей
-        public ICommand TrayIconClickCommand { get; set; }
-        private void TrayIconClick(object parameter)
-        {
-            //Логика обработки клика на значке в трее
-            OpenMainWindow();
-        }
-        private void  OpenMainWindow()
+        public ICommand TrayOpenClickCommand { get; set; }
+        public ICommand TrayCloseClickCommand { get; set; }
+        public ICommand LeftClickCommand { get; set; }
+
+        //Логика обработки клика на значке в трее
+        private void TrayOpenClick(object parameter)
         {
             OnOpenMainWindow?.Invoke(this, EventArgs.Empty);
         }
+        private void TrayCloseClick(object parameter)
+        {
+            OnCloseMainWindow?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LeftClick(object parameter)
+        {
+            OnShowNotification?.Invoke(this, EventArgs.Empty);
+        }
         public event EventHandler OnOpenMainWindow;
+        public event EventHandler OnCloseMainWindow;
+        public event EventHandler OnShowNotification;
         #endregion
 
         #region Таймер
@@ -132,8 +138,11 @@ namespace WPFclient.ViewModels
             get => textInfo;
             set
             {
-                textInfo = value;
-                OnPropertyChanged(nameof(TextInfo));
+                if (textInfo != value)
+                {
+                    textInfo = value;
+                    OnPropertyChanged(nameof(TextInfo));
+                }
             }
         }
 
@@ -209,6 +218,7 @@ namespace WPFclient.ViewModels
                         }
 
                         TextInfo += serverLastModified[i].ToString();
+                        OnShowNotification?.Invoke(this, EventArgs.Empty);
                     }
                 }
             }
@@ -227,7 +237,9 @@ namespace WPFclient.ViewModels
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
 
-            TrayIconClickCommand = new RelayCommand(TrayIconClick, p => true);
+            TrayOpenClickCommand = new RelayCommand(TrayOpenClick, p => true);
+            TrayCloseClickCommand = new RelayCommand(TrayCloseClick, p => true);
+            LeftClickCommand = new RelayCommand(LeftClick, p => true);
         }
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)
@@ -271,6 +283,7 @@ namespace WPFclient.ViewModels
                         }
 
                         TextInfo += serverLastModified[i].ToString();
+                        OnShowNotification?.Invoke(this, EventArgs.Empty);
                     }
                 }
             }
