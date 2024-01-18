@@ -187,7 +187,7 @@ namespace WPFclient.ViewModels
 
         public MainWindowVM()
         {
-            AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
+            AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => false);
 
             //Принудительное обновление плагинов через анонимны метод
             UpdateCommand = new RelayCommand(Update, p => true);
