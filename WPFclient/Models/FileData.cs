@@ -12,7 +12,7 @@ namespace WPFclient.Models
 
         public override string ToString()
         {
-            return $"В плагине {TranslateText(FileName)} добавлены следующие изменения: {ChangeInfo}\n\n";
+            return $"{TranslateText(FileName)} добавлены следующие изменения: {ChangeInfo}\n\n";
         }
 
         private string TranslateText(string fileName)

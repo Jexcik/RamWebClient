@@ -117,7 +117,7 @@ namespace WPFclient.ViewModels
         #endregion
 
         #region ТекстБоксы
-        private string title = "Главное окно";
+        private string title = "AutoUpdater";
         public string Title
         {
             get => title;
@@ -177,62 +177,19 @@ namespace WPFclient.ViewModels
         }
 
         public ICommand UpdateCommand { get; }
-        private async void Update(object parameter)
+        private event EventHandler OnUpdate;
+        private void Update(object parameter)
         {
-            try
-            {
-                //Получение актуальной информации о файлах на сервере
-                List<FileData> serverLastModified = await ApiManager.GetServerFilesLastModifiedDateAsync();
-
-                //Получение локальной даты последнего изменения файла
-                List<DateTime> localLastModified = new List<DateTime>();
-
-                foreach (FileData file in serverLastModified)
-                {
-                    string localFilePath = $"{file.LocalFileFolder.Replace("%username%", ApiManager.GetLocalUserName())}\\{file.FileName}.dll";
-                    localLastModified.Add(File.GetLastWriteTime(localFilePath));
-                }
-                List<string> fileExist = new List<string>
-                {
-                    ".dll",
-                    ".txt",
-                    ".png",
-                };
-
-                //Сравнивание дат
-                for (int i = 0; i < serverLastModified.Count; i++)
-                {
-                    if (serverLastModified[i].Date > localLastModified[i])
-                    {
-                        int counter = 3;
-                        if (serverLastModified[i].FileName.Contains("RibbonRAM"))
-                        {
-                            fileExist.Clear();
-                            fileExist.AddRange(new string[] { ".dll", ".addin" });
-                            counter = 2;
-                        }
-
-                        for (int j = 0; j < counter; j++)
-                        {
-                            await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
-                        }
-
-                        TextInfo += serverLastModified[i].ToString();
-                        OnShowNotification?.Invoke(this, EventArgs.Empty);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при проверки обновлений: {ex.Message}");
-            }
-
+            OnUpdate += UpdateTimer_Tick;
+            OnUpdate?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
+
+            //Принудительное обновление плагинов через анонимны метод
             UpdateCommand = new RelayCommand(Update, p => true);
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
@@ -282,7 +239,7 @@ namespace WPFclient.ViewModels
                             await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
                         }
 
-                        TextInfo += serverLastModified[i].ToString();
+                        TextInfo += $"В плагин {serverLastModified[i].ToString()}";
                         OnShowNotification?.Invoke(this, EventArgs.Empty);
                     }
                 }

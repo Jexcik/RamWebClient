@@ -88,7 +88,6 @@ namespace WPFclient.Models
                         {
                             await contentStream.CopyToAsync(fileStream);
                         }
-                        MessageBox.Show($"Файл {fileName} успешно скачан");
                     }
                     else
                     {
@@ -102,6 +101,10 @@ namespace WPFclient.Models
             }
         }
 
+        /// <summary>
+        /// Метод для получения имени пользователя на локальном компьютере
+        /// </summary>
+        /// <returns>Возвращает имя пользователя локльного компьютера</returns>
         public static string GetLocalUserName()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile).Split('\\').Last();

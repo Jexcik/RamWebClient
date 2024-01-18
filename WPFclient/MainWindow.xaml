@@ -31,23 +31,91 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <RadioButton Content="При загрузке" 
-                             Grid.Row="0" 
-                             VerticalAlignment="Center"
-                             IsChecked="{Binding Path=IsWhileLoading}"
-                             >
+
+                <RadioButton 
+                    Content="При загрузке"
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding Path=IsWhileLoading}">
+                    <RadioButton.Template>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Grid>
+                                <Path x:Name="starPath"
+                                      Data="M5,0 L7,3 L10,3 L8,6 L9,9 L5,7 L1,9 L2,6 L0,3 L3,3 Z"
+                                      Width="15"
+                                      Height="15"
+                                      Stretch="Uniform"
+                                      Fill="{TemplateBinding Background}" 
+                                      Stroke="Black" 
+                                      StrokeThickness="1"
+                                      HorizontalAlignment="Left"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="starPath" Property="Fill" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RadioButton.Template>
                 </RadioButton>
-                <RadioButton Content="Каждые 10 минут" 
-                             Grid.Row="1" 
-                             VerticalAlignment="Center"
-                             IsChecked="{Binding Path=IsEveryTenMinutes}"
-                             >
+
+                <RadioButton 
+                    Content="Каждые 10 минут" 
+                    Grid.Row="1" 
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding Path=IsEveryTenMinutes}">
+                    <RadioButton.Template>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Grid>
+                                <Path x:Name="starPath"
+                                      Data="M5,0 L7,3 L10,3 L8,6 L9,9 L5,7 L1,9 L2,6 L0,3 L3,3 Z"
+                                      Width="15"
+                                      Height="15"
+                                      Stretch="Uniform"
+                                      Fill="{TemplateBinding Background}" 
+                                      Stroke="Black" 
+                                      StrokeThickness="1"
+                                      HorizontalAlignment="Left"/>
+                                <Grid Margin="22,0,0,0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="starPath" Property="Fill" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RadioButton.Template>
                 </RadioButton>
+
                 <RadioButton Content="Каждый час" 
                              Grid.Row="2" 
                              VerticalAlignment="Center"
-                             IsChecked="{Binding Path=IsEachHour}"
-                             >
+                             IsChecked="{Binding Path=IsEachHour}">
+                    <RadioButton.Template>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Grid>
+                                <Path x:Name="starPath"
+                                      Data="M5,0 L7,3 L10,3 L8,6 L9,9 L5,7 L1,9 L2,6 L0,3 L3,3 Z"
+                                      Width="15"
+                                      Height="15"
+                                      Stretch="Uniform"
+                                      Fill="{TemplateBinding Background}" 
+                                      Stroke="Black" 
+                                      StrokeThickness="1"
+                                      HorizontalAlignment="Left"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="starPath" Property="Fill" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RadioButton.Template>
+
                 </RadioButton>
 
             </Grid>
@@ -61,10 +129,10 @@
             Grid.Row="0" 
             FontWeight="Bold">
         </Label>
-        
+
         <Button 
             Content="Авторизоваться"
-            IsEnabled="False"
+            IsEnabled="True"
             Grid.Row="0"
             Command="{Binding Path=AuthorizationCommand}"
             VerticalAlignment="Top"
@@ -81,15 +149,53 @@
             Background="#FFACACAC">
         </GridSplitter>
 
-        <Button Content="Обновить плагин"
-                IsEnabled="True"
-                Grid.Row="1"
-                Command="{Binding Path=UpdateCommand}"
-                VerticalAlignment="Bottom" 
-                HorizontalAlignment="Center"
-                Height="30" Width="100"  
-                Margin="10,0,0,10">
+        <Button 
+            Grid.Row="1"
+            Command="{Binding Path=UpdateCommand}"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Height="Auto"
+            Width="90"
+            Margin="10,0,0,10"
+            Background="DeepSkyBlue">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate 
+                                TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="White"
+                                BorderThickness="1"
+                                CornerRadius="5">
+                                    <ContentPresenter 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger 
+                            Property="IsPressed" 
+                            Value="True">
+                            <Setter 
+                                Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform 
+                                        ScaleX="0.98" 
+                                        ScaleY="0.98"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <TextBlock LineHeight="10" VerticalAlignment="Center" FontWeight="Bold" Foreground="White">
+        Проверить<LineBreak/>обновления
+            </TextBlock>
         </Button>
+
         <TextBox 
             Grid.Row="0"
             Text="{Binding Path=TextInfo}"
