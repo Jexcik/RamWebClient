@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -39,7 +41,6 @@ namespace WPFclient.ViewModels
 
         #region Таймер
         private DispatcherTimer updateTimer;
-
         private void UpdateTimerInterval()
         {
             //Установка интервала в зависимости от выбранного RadioButton
@@ -61,9 +62,11 @@ namespace WPFclient.ViewModels
                 updateTimer.Interval = TimeSpan.FromSeconds(3600);
                 updateTimer.Tick += UpdateTimer_Tick;
             }
+
             //Запуск таймера
             updateTimer.Start();
         }
+
 
         #region RadioButton
         private bool isWhileLoading;
@@ -187,7 +190,7 @@ namespace WPFclient.ViewModels
 
         public MainWindowVM()
         {
-            AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => false);
+            AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
 
             //Принудительное обновление плагинов через анонимны метод
             UpdateCommand = new RelayCommand(Update, p => true);
@@ -201,6 +204,7 @@ namespace WPFclient.ViewModels
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            Process process = Process.GetProcesses().FirstOrDefault(p => p.ProcessName.Equals("Revit"));
             try
             {
                 //Получение актуальной информации о файлах на сервере
@@ -226,21 +230,30 @@ namespace WPFclient.ViewModels
                 {
                     if (serverLastModified[i].Date > localLastModified[i])
                     {
-                        int counter = 3;
-                        if (serverLastModified[i].FileName.Contains("RibbonRAM"))
+                        if (process == null)
                         {
-                            fileExist.Clear();
-                            fileExist.AddRange(new string[] { ".dll", ".addin" });
-                            counter = 2;
-                        }
+                            int counter = 3;
+                            if (serverLastModified[i].FileName.Contains("RibbonRAM"))
+                            {
+                                fileExist.Clear();
+                                fileExist.AddRange(new string[] { ".dll", ".addin" });
+                                counter = 2;
+                            }
 
-                        for (int j = 0; j < counter; j++)
+                            for (int j = 0; j < counter; j++)
+                            {
+                                await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
+                            }
+
+                            TextInfo += $"В плагин {serverLastModified[i].ToString()}";
+                            OnShowNotification?.Invoke(this, EventArgs.Empty);
+                        }
+                        else
                         {
-                            await ApiManager.DownloadFileAsync(serverLastModified[i].FileName + fileExist[j], serverLastModified[i].LocalFileFolder);
+                            TextInfo = "Вышли новые обновления!\nДля установки закройте Revit.";
+                            OnShowNotification?.Invoke(this, EventArgs.Empty);
+                            TextInfo=string.Empty;
                         }
-
-                        TextInfo += $"В плагин {serverLastModified[i].ToString()}";
-                        OnShowNotification?.Invoke(this, EventArgs.Empty);
                     }
                 }
             }
