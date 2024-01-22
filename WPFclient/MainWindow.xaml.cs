@@ -1,12 +1,9 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using WPFclient.Models;
 using WPFclient.ViewModels;
-using WPFclient.ViewModels.Base;
-using System.IO;
-using System.Drawing;
 
 namespace WPFclient.Views
 {
