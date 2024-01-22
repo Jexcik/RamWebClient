@@ -1,10 +1,12 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using WPFclient.Models;
 using WPFclient.ViewModels;
 using WPFclient.ViewModels.Base;
+using System.IO;
+using System.Drawing;
 
 namespace WPFclient.Views
 {
@@ -14,7 +16,6 @@ namespace WPFclient.Views
     public partial class MainWindow : Window
     {
         private TaskbarIcon notifyIcon;
-        private const string iconPath = @"C:\Users\e.egorov\Source\Repos\RamWebClient\WPFclient\Resources\logoRAM.ico";
         MainWindowVM viewModel;
         public MainWindow()
         {
@@ -28,7 +29,7 @@ namespace WPFclient.Views
         {
             //Инициализация TaskBarIcon
             notifyIcon = new TaskbarIcon();
-            notifyIcon.Icon = new Icon(iconPath);
+            notifyIcon.Icon = new Icon(Properties.Resource.logoRAM,new System.Drawing.Size(16,16));
             notifyIcon.ToolTipText = "Launcher";
             notifyIcon.LeftClickCommand = viewModel.LeftClickCommand;
 

@@ -47,7 +47,7 @@ namespace WPFclient.ViewModels
             if (IsWhileLoading)
             {
                 updateTimer.Tick -= UpdateTimer_Tick;
-                updateTimer.Interval = TimeSpan.FromSeconds(10);
+                updateTimer.Interval = TimeSpan.FromSeconds(60);
                 updateTimer.Tick += UpdateTimer_Tick;
             }
             if (IsEveryTenMinutes)
