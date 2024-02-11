@@ -41,7 +41,7 @@
                                             BorderBrush="Transparent"
                                             BorderThickness="1"
                                             CornerRadius="9,9,0,0">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Header}" FontWeight="Bold" Foreground="Black" />
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Header}" FontWeight="Bold" Foreground="White" />
                                         </Border>
                                         <Border 
                                             x:Name="highlightBorder" 
