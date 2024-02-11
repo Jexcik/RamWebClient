@@ -20,16 +20,11 @@
 
         <TabControl 
             TabStripPlacement="Left" Width="Auto">
-            <TabControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Rows="10" Margin="10"/>
-                </ItemsPanelTemplate>
-            </TabControl.ItemsPanel>
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
                     <Setter Property="Width" Value="120"/>
                     <Setter Property="Height" Value="40"/>
-                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Margin" Value="0,0,0,1"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
@@ -46,7 +41,7 @@
                                             BorderBrush="Transparent"
                                             BorderThickness="1"
                                             CornerRadius="9,9,0,0">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding HeaderStringFormat}" FontWeight="Bold" Foreground="Black" />
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Header}" FontWeight="Bold" Foreground="Black" />
                                         </Border>
                                         <Border 
                                             x:Name="highlightBorder" 
@@ -57,14 +52,15 @@
                                             <ContentPresenter 
                                                 HorizontalAlignment="Center" 
                                                 VerticalAlignment="Center" 
-                                                ContentSource="Header"/>
+                                                ContentSource="Header">
+                                            </ContentPresenter>
                                         </Border>
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
+                                    <!--<Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="highlightBorder" Property="Opacity" Value="1"/>
-                                    </Trigger>
+                                    </Trigger>-->
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter 
                                             TargetName="outerBorder" 
@@ -81,7 +77,7 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            
+
             <TabItem Header="Центр обновлений">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -223,7 +219,6 @@
                     </Label>
 
                     <Button 
-                        IsEnabled="False"
                         Grid.Row="0"
                         Command="{Binding Path=AuthorizationCommand}"
                         VerticalAlignment="Top"
