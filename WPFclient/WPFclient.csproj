@@ -45,10 +45,25 @@
     <ApplicationIcon>Resources\logoRAM.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdWindows, Version=5.0.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="RevitAddInUtility, Version=24.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\RevitAddInUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Version=24.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI, Version=24.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\RevitAPIUI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -72,6 +87,12 @@
     <Reference Include="System.Core" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIFramework, Version=24.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\UIFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="UIFrameworkServices, Version=24.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\UIFrameworkServices.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +102,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\ApiManager.cs" />
     <Compile Include="Models\FileData.cs" />
+    <Compile Include="Models\Services\OpenCommand.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
     <Compile Include="Views\Register.xaml.cs">

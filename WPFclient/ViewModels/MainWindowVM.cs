@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
+using WPFclient.Models.Services;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
+using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace WPFclient.ViewModels
 {
@@ -186,20 +191,46 @@ namespace WPFclient.ViewModels
             OnUpdate += UpdateTimer_Tick;
             OnUpdate?.Invoke(this, EventArgs.Empty);
         }
+
+        public ICommand UnloadCommand { get; }
+
+        private void Unload(object parameter)
+        {
+            try
+            {
+                ////Путь к исполняемому файлу Revit
+                string revitPath = @"C:\Program Files\Autodesk\Revit 2022\Revit.exe";
+
+                Process process = Process.Start(revitPath);
+
+                Thread.Sleep(10000000);
+
+                var command = new OpenCommand();
+            }
+            catch
+            {
+
+            }
+        }
         #endregion
 
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
 
-            //Принудительное обновление плагинов через анонимны метод
+            //Принудительное обновление плагинов через анонимный метод
             UpdateCommand = new RelayCommand(Update, p => true);
+
             //Инициализация таймера
             updateTimer = new DispatcherTimer();
 
             TrayOpenClickCommand = new RelayCommand(TrayOpenClick, p => true);
+
             TrayCloseClickCommand = new RelayCommand(TrayCloseClick, p => true);
+
             LeftClickCommand = new RelayCommand(LeftClick, p => true);
+
+            UnloadCommand = new RelayCommand(Unload, p => true);
         }
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)
@@ -252,7 +283,7 @@ namespace WPFclient.ViewModels
                         {
                             TextInfo = "Вышли новые обновления!\nДля установки закройте Revit.";
                             OnShowNotification?.Invoke(this, EventArgs.Empty);
-                            TextInfo=string.Empty;
+                            TextInfo = string.Empty;
                         }
                     }
                 }

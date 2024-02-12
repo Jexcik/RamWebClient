@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPFclient.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowVM}"
         Title="{Binding Title}" 
         Height="500" 
@@ -22,9 +23,9 @@
             TabStripPlacement="Left" Width="Auto">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
-                    <Setter Property="Width" Value="120"/>
+                    <Setter Property="Width" Value="130"/>
                     <Setter Property="Height" Value="40"/>
-                    <Setter Property="Margin" Value="0,0,0,1"/>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
@@ -41,7 +42,12 @@
                                             BorderBrush="Transparent"
                                             BorderThickness="1"
                                             CornerRadius="9,9,0,0">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Header}" FontWeight="Bold" Foreground="White" />
+                                            <TextBlock 
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center" 
+                                                Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Header}" 
+                                                FontWeight="Bold" 
+                                                Foreground="Black" />
                                         </Border>
                                         <Border 
                                             x:Name="highlightBorder" 
@@ -58,10 +64,17 @@
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <!--<Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="highlightBorder" Property="Opacity" Value="1"/>
+                                    <!--<Trigger 
+                                        Property="IsMouseOver" 
+                                        Value="True">
+                                        <Setter 
+                                            TargetName="highlightBorder" 
+                                            Property="Opacity" 
+                                            Value="1"/>
                                     </Trigger>-->
-                                    <Trigger Property="IsSelected" Value="True">
+                                    <Trigger 
+                                        Property="IsSelected" 
+                                        Value="True">
                                         <Setter 
                                             TargetName="outerBorder" 
                                             Property="Background" 
@@ -77,14 +90,12 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-
             <TabItem Header="Центр обновлений">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
-
                     <GroupBox
                         Header="Интервал проверки обновлений"
                         Grid.Row="0"
@@ -294,7 +305,7 @@
                                             TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
                                                     BorderBrush="White"
-                                                    BorderThickness="1"
+                                                    BorderThickness="0"
                                                     CornerRadius="5">
                                                 <ContentPresenter 
                                                     HorizontalAlignment="Center" 
@@ -305,14 +316,14 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger 
-                            Property="IsPressed" 
-                            Value="True">
+                                        Property="IsPressed" 
+                                        Value="True">
                                         <Setter 
-                                Property="RenderTransform">
+                                            Property="RenderTransform">
                                             <Setter.Value>
                                                 <ScaleTransform 
-                                        ScaleX="0.98" 
-                                        ScaleY="0.98"/>
+                                                    ScaleX="0.98" 
+                                                    ScaleY="0.98"/>
                                             </Setter.Value>
                                         </Setter>
                                     </Trigger>
@@ -357,7 +368,42 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button></Button>
+
+                    <Button 
+                        Content="Нажми меня"
+                        Command="{Binding UnloadCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate 
+                                            TargetType="Button">
+                                            <Border 
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="White"
+                                                BorderThickness="0"
+                                                CornerRadius="15">
+                                                <TextBlock Text="Выгрузить модель" FontFamily="FontAwesome" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="SeaGreen"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
             </TabItem>
         </TabControl>
