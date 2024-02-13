@@ -205,7 +205,7 @@ namespace WPFclient.ViewModels
         #endregion
 
         #region Внешние службы
-        public ObservableCollection<ICommand> Commands { get; set; }
+        public ObservableCollection<TotalInformation> FileInform { get; set; }
         #endregion
 
         public MainWindowVM()
@@ -225,6 +225,12 @@ namespace WPFclient.ViewModels
             LeftClickCommand = new RelayCommand(LeftClick, p => true);
 
             UnloadCommand = new RelayCommand(Unload, p => true);
+
+            FileInform = new ObservableCollection<TotalInformation>
+            {
+                new TotalInformation("KUM","....","ABC"),
+                new TotalInformation("KZM","www.Kremlin.ru","IFG")
+            };
         }
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)

@@ -373,11 +373,16 @@
                             FontSize="14"
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"/>
-                        <DataGrid>
+                        <DataGrid ItemsSource="{Binding Path=FileInform}" AutoGenerateColumns="False" CanUserResizeColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Шифр проекта" Binding="{Binding Name}" Width="Auto"/>
-                                <DataGridTextColumn Header="Имя модели" Binding="{Binding Name}" Width="Auto"/>
-                                <DataGridTextColumn Header="Дата последнего изменения" Binding="{Binding Name}" Width="150*"/>
+                                <DataGridTextColumn 
+                                    Header="Шифр проекта" Binding="{Binding Path=DrawingCode}" Width="Auto" IsReadOnly="True"/>
+                                
+                                <DataGridTextColumn 
+                                    Header="Имя модели" Binding="{Binding Path=ModelName}" Width="Auto" IsReadOnly="True"/>
+                                
+                                <DataGridTextColumn 
+                                    Header="Путь к файлу" Binding="{Binding Path=FilePath}" Width="150*" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

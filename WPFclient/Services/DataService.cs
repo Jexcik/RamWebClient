@@ -8,11 +8,7 @@ namespace WPFclient.Services
     {
         private TotalInformation OnChanged(object sender, FileSystemEventArgs e)
         {
-            return new TotalInformation()
-            {
-                ModelName=e.Name,
-                FilePath=e.FullPath,
-            };
+            return new TotalInformation(e.Name, e.FullPath, e.Name);
         }
 
     }
