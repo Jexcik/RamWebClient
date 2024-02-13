@@ -362,16 +362,34 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <StackPanel>
+                        <TextBlock 
+                            Text="Изменения в Общих данных" 
+                            FontSize="14"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"/>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Шифр проекта" Binding="{Binding Name}" Width="Auto"/>
+                                <DataGridTextColumn Header="Имя модели" Binding="{Binding Name}" Width="Auto"/>
+                                <DataGridTextColumn Header="Дата последнего изменения" Binding="{Binding Name}" Width="150*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
                     <Button 
-                        Content="Нажми меня"
-                        Command="{Binding UnloadCommand}">
+                        Command="{Binding UnloadCommand}"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        Height="100"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="DeepSkyBlue"/>
@@ -404,6 +422,15 @@
                             </Style>
                         </Button.Style>
                     </Button>
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Сервис статистики">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
                 </Grid>
             </TabItem>
         </TabControl>

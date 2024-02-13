@@ -102,7 +102,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\ApiManager.cs" />
     <Compile Include="Models\FileData.cs" />
-    <Compile Include="Models\Services\OpenCommand.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
     <Compile Include="Views\Register.xaml.cs">
@@ -160,7 +160,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Infrastructure\Converters\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

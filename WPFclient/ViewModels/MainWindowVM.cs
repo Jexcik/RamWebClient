@@ -2,6 +2,7 @@
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
-using WPFclient.Models.Services;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
 using Application = Autodesk.Revit.ApplicationServices.Application;
@@ -20,6 +20,8 @@ namespace WPFclient.ViewModels
 {
     public class MainWindowVM : ViewModel
     {
+        #region Центр обновлений
+
         #region Трей
         public ICommand TrayOpenClickCommand { get; set; }
         public ICommand TrayCloseClickCommand { get; set; }
@@ -196,22 +198,14 @@ namespace WPFclient.ViewModels
 
         private void Unload(object parameter)
         {
-            try
-            {
-                ////Путь к исполняемому файлу Revit
-                string revitPath = @"C:\Program Files\Autodesk\Revit 2022\Revit.exe";
 
-                Process process = Process.Start(revitPath);
-
-                Thread.Sleep(10000000);
-
-                var command = new OpenCommand();
-            }
-            catch
-            {
-
-            }
         }
+        #endregion
+
+        #endregion
+
+        #region Внешние службы
+        public ObservableCollection<ICommand> Commands { get; set; }
         #endregion
 
         public MainWindowVM()
