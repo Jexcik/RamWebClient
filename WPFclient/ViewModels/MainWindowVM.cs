@@ -205,7 +205,11 @@ namespace WPFclient.ViewModels
         #endregion
 
         #region Внешние службы
-        public ObservableCollection<TotalInformation> FileInform { get; set; }
+        public ObservableCollection<TotalInformation> FileInform { get; set; }= new ObservableCollection<TotalInformation>()
+        {
+            new TotalInformation("KUM","....","ABC"),
+            new TotalInformation("KZM","www.Kremlin.ru","IFG")
+        };
         #endregion
 
         public MainWindowVM()
@@ -226,11 +230,11 @@ namespace WPFclient.ViewModels
 
             UnloadCommand = new RelayCommand(Unload, p => true);
 
-            FileInform = new ObservableCollection<TotalInformation>
-            {
-                new TotalInformation("KUM","....","ABC"),
-                new TotalInformation("KZM","www.Kremlin.ru","IFG")
-            };
+            //FileInform = new ObservableCollection<TotalInformation>
+            //{
+            //    new TotalInformation("KUM","....","ABC"),
+            //    new TotalInformation("KZM","www.Kremlin.ru","IFG")
+            //};
         }
 
         private async void UpdateTimer_Tick(object sender, EventArgs e)
