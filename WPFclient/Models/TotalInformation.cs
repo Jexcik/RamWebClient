@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WPFclient.Models
 {
-    internal class TotalInformation
+    public class TotalInformation
     {
+
     }
 }
