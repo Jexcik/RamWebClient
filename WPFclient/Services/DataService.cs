@@ -8,6 +8,6 @@ namespace WPFclient.Services
 {
     public class DataService
     {
-
+        
     }
 }

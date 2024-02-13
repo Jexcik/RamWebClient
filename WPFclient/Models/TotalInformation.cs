@@ -8,6 +8,8 @@ namespace WPFclient.Models
 {
     public class TotalInformation
     {
-
+        public string ModelName { get; set; }
+        public string FilePath { get; set; }
+        public string DrawingCode { get; set; }
     }
 }
