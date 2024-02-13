@@ -1,13 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using WPFclient.Models;
 
 namespace WPFclient.Services
 {
     public class DataService
     {
-        
+        private TotalInformation OnChanged(object sender, FileSystemEventArgs e)
+        {
+            return new TotalInformation()
+            {
+                ModelName=e.Name,
+                FilePath=e.FullPath,
+            };
+        }
+
     }
 }
