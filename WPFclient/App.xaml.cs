@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPFclient.Services;
 
 namespace WPFclient.Views
 {
@@ -13,5 +14,6 @@ namespace WPFclient.Views
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

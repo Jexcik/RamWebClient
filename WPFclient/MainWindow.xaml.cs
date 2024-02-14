@@ -13,7 +13,8 @@ namespace WPFclient.Views
     public partial class MainWindow : Window
     {
         private TaskbarIcon notifyIcon;
-        MainWindowVM viewModel;
+        private readonly MainWindowVM viewModel;
+
         public MainWindow()
         {
             InitializeComponent();

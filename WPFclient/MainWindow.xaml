@@ -10,9 +10,9 @@
         Height="500" 
         Width="500" 
         WindowStartupLocation="CenterScreen" 
-        Icon="/Resources/logoRAM.ico" 
-        ResizeMode="CanMinimize" 
-        ShowInTaskbar="False" >
+        Icon="/Resources/logoRAM.ico"
+        ResizeMode="CanMinimize"
+        ShowInTaskbar="False">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -367,22 +367,30 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel>
+                    <StackPanel Orientation="Vertical">
                         <TextBlock 
-                            Text="Изменения в Общих данных" 
-                            FontSize="14"
-                            VerticalAlignment="Center" 
+                            Text="Изменения в Общих данных" FontSize="14" VerticalAlignment="Center" 
                             HorizontalAlignment="Center"/>
-                        <DataGrid ItemsSource="{Binding Path=FileInform}" AutoGenerateColumns="False" CanUserResizeColumns="False">
+                        
+                        <DataGrid 
+                            ItemsSource="{Binding Path=FileChanges, Mode=TwoWay}" 
+                            AutoGenerateColumns="False" CanUserResizeColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn 
-                                    Header="Шифр проекта" Binding="{Binding Path=DrawingCode}" Width="Auto" IsReadOnly="True"/>
-                                
+                                    Header="Имя модели" 
+                                    Binding="{Binding Path=FileName, Mode=TwoWay}" Width="Auto" IsReadOnly="True"/>
+
                                 <DataGridTextColumn 
-                                    Header="Имя модели" Binding="{Binding Path=ModelName}" Width="Auto" IsReadOnly="True"/>
-                                
+                                    Header="Путь к файлу" 
+                                    Binding="{Binding Path=FilePath, Mode=TwoWay}" Width="Auto" IsReadOnly="True"/>
+
                                 <DataGridTextColumn 
-                                    Header="Путь к файлу" Binding="{Binding Path=FilePath}" Width="150*" IsReadOnly="True"/>
+                                    Header="Дата изменения" 
+                                    Binding="{Binding Path=DateChang, Mode=TwoWay}" Width="Auto" IsReadOnly="False"/>
+
+                                <DataGridTextColumn 
+                                    Header="Автор изменения" 
+                                    Binding="{Binding Path=Author, Mode=TwoWay}" Width="Auto" IsReadOnly="False"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

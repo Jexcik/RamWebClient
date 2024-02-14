@@ -1,12 +1,9 @@
-﻿using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -14,7 +11,6 @@ using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
-using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace WPFclient.ViewModels
 {
@@ -205,11 +201,58 @@ namespace WPFclient.ViewModels
         #endregion
 
         #region Внешние службы
-        public ObservableCollection<TotalInformation> FileInform { get; set; }= new ObservableCollection<TotalInformation>()
+
+        private ObservableCollection<FileChangeModel> fileChanges = new ObservableCollection<FileChangeModel>();
+        public ObservableCollection<FileChangeModel> FileChanges
         {
-            new TotalInformation("KUM","....","ABC"),
-            new TotalInformation("KZM","www.Kremlin.ru","IFG")
-        };
+            get { return fileChanges; }
+            set
+            {
+                if (fileChanges != value)
+                {
+                    fileChanges = value;
+                    OnPropertyChanged(nameof(FileChanges));
+                }
+            }
+        }
+
+        const string folderPath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные";
+
+        FileSystemWatcher watcher = new FileSystemWatcher(folderPath);
+
+        private void SetupFileSystemWatcher()
+        {
+            watcher.NotifyFilter = NotifyFilters.Attributes
+                | NotifyFilters.CreationTime
+                | NotifyFilters.DirectoryName
+                | NotifyFilters.FileName
+                | NotifyFilters.LastAccess
+                | NotifyFilters.LastWrite
+                | NotifyFilters.Security
+                | NotifyFilters.Size;
+
+            watcher.Filter = ".txt";
+
+            watcher.IncludeSubdirectories = true;
+            watcher.EnableRaisingEvents = true;
+
+            watcher.Changed += Watcher_Changed;
+            watcher.Created += Watcher_Changed;
+            watcher.Renamed += Watcher_Changed;
+            watcher.Deleted += Watcher_Changed;
+
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+                string fileName = e.Name;
+                string filePath = e.FullPath;
+                string author = Environment.UserName;
+                DateTime date = DateTime.Now;
+
+                FileChanges.Add(new FileChangeModel(fileName, filePath, author, date));
+        }
+
         #endregion
 
         public MainWindowVM()
@@ -230,13 +273,13 @@ namespace WPFclient.ViewModels
 
             UnloadCommand = new RelayCommand(Unload, p => true);
 
-            //FileInform = new ObservableCollection<TotalInformation>
-            //{
-            //    new TotalInformation("KUM","....","ABC"),
-            //    new TotalInformation("KZM","www.Kremlin.ru","IFG")
-            //};
-        }
+            FileChanges = new ObservableCollection<FileChangeModel>()
+            {
+                new FileChangeModel("хуй","////","Jexcik",DateTime.Now)
+            };
 
+            SetupFileSystemWatcher();
+        }
         private async void UpdateTimer_Tick(object sender, EventArgs e)
         {
             Process process = Process.GetProcesses().FirstOrDefault(p => p.ProcessName.Equals("Revit"));
