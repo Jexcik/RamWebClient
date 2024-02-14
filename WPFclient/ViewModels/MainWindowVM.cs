@@ -216,7 +216,7 @@ namespace WPFclient.ViewModels
             }
         }
 
-        const string folderPath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные";
+        const string folderPath = @"C:\Users\e.egorov\Desktop";
 
         FileSystemWatcher watcher = new FileSystemWatcher(folderPath);
 
