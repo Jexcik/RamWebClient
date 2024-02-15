@@ -11,7 +11,7 @@
         Width="500" 
         WindowStartupLocation="CenterScreen" 
         Icon="/Resources/logoRAM.ico"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResize"
         ShowInTaskbar="False">
 
     <Grid>
@@ -360,8 +360,8 @@
                 Header="Внешние службы">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="300*"/>
+                        <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -369,28 +369,50 @@
 
                     <StackPanel Orientation="Vertical">
                         <TextBlock 
-                            Text="Изменения в Общих данных" FontSize="14" VerticalAlignment="Center" 
+                            Text="Изменения в Общих данных" 
+                            FontSize="14" 
+                            VerticalAlignment="Center"
                             HorizontalAlignment="Center"/>
-                        
                         <DataGrid 
-                            ItemsSource="{Binding Path=FileChanges, Mode=TwoWay}" 
-                            AutoGenerateColumns="False" CanUserResizeColumns="False">
+                            Name="fileChangesDataGrid" 
+                            AutoGenerateColumns="False" 
+                            VerticalScrollBarVisibility="Hidden">
                             <DataGrid.Columns>
                                 <DataGridTextColumn 
-                                    Header="Имя модели" 
-                                    Binding="{Binding Path=FileName, Mode=TwoWay}" Width="Auto" IsReadOnly="True"/>
+                                    Header="Действие"
+                                    Width="Auto"
+                                    Binding="{Binding Action}"
+                                    IsReadOnly="True"/>
 
                                 <DataGridTextColumn 
-                                    Header="Путь к файлу" 
-                                    Binding="{Binding Path=FilePath, Mode=TwoWay}" Width="Auto" IsReadOnly="True"/>
+                                    Header="Имя модели" 
+                                    Width="Auto" 
+                                    Binding="{Binding FileName}"
+                                    IsReadOnly="True"/>
+
+                                <DataGridTextColumn 
+                                    Header="Путь к файлу"  
+                                    Width="Auto"
+                                    Binding="{Binding FilePath}"
+                                    IsReadOnly="True"/>
+
+                                <DataGridTextColumn 
+                                    Header="Дата создания" 
+                                    Width="Auto" 
+                                    Binding="{Binding DateCreation}"
+                                    IsReadOnly="True"/>
 
                                 <DataGridTextColumn 
                                     Header="Дата изменения" 
-                                    Binding="{Binding Path=DateChang, Mode=TwoWay}" Width="Auto" IsReadOnly="False"/>
+                                    Width="Auto" 
+                                    Binding="{Binding DateChange}"
+                                    IsReadOnly="True"/>
 
                                 <DataGridTextColumn 
-                                    Header="Автор изменения" 
-                                    Binding="{Binding Path=Author, Mode=TwoWay}" Width="Auto" IsReadOnly="False"/>
+                                    Header="Автор изменения"
+                                    Width="Auto"
+                                    Binding="{Binding AuthorChange}"
+                                    IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -402,7 +424,7 @@
                         Height="100"
                         Width="100"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom">
+                        VerticalAlignment="Top">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="DeepSkyBlue"/>
@@ -437,6 +459,7 @@
                     </Button>
                 </Grid>
             </TabItem>
+            
             <TabItem
                 Header="Сервис статистики">
                 <Grid>

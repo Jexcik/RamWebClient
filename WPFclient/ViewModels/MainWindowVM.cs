@@ -202,57 +202,6 @@ namespace WPFclient.ViewModels
 
         #region Внешние службы
 
-        private ObservableCollection<FileChangeModel> fileChanges = new ObservableCollection<FileChangeModel>();
-        public ObservableCollection<FileChangeModel> FileChanges
-        {
-            get { return fileChanges; }
-            set
-            {
-                if (fileChanges != value)
-                {
-                    fileChanges = value;
-                    OnPropertyChanged(nameof(FileChanges));
-                }
-            }
-        }
-
-        const string folderPath = @"C:\Users\e.egorov\Desktop";
-
-        FileSystemWatcher watcher = new FileSystemWatcher(folderPath);
-
-        private void SetupFileSystemWatcher()
-        {
-            watcher.NotifyFilter = NotifyFilters.Attributes
-                | NotifyFilters.CreationTime
-                | NotifyFilters.DirectoryName
-                | NotifyFilters.FileName
-                | NotifyFilters.LastAccess
-                | NotifyFilters.LastWrite
-                | NotifyFilters.Security
-                | NotifyFilters.Size;
-
-            watcher.Filter = ".txt";
-
-            watcher.IncludeSubdirectories = true;
-            watcher.EnableRaisingEvents = true;
-
-            watcher.Changed += Watcher_Changed;
-            watcher.Created += Watcher_Changed;
-            watcher.Renamed += Watcher_Changed;
-            watcher.Deleted += Watcher_Changed;
-
-        }
-
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
-        {
-                string fileName = e.Name;
-                string filePath = e.FullPath;
-                string author = Environment.UserName;
-                DateTime date = DateTime.Now;
-
-                FileChanges.Add(new FileChangeModel(fileName, filePath, author, date));
-        }
-
         #endregion
 
         public MainWindowVM()
@@ -272,13 +221,6 @@ namespace WPFclient.ViewModels
             LeftClickCommand = new RelayCommand(LeftClick, p => true);
 
             UnloadCommand = new RelayCommand(Unload, p => true);
-
-            FileChanges = new ObservableCollection<FileChangeModel>()
-            {
-                new FileChangeModel("хуй","////","Jexcik",DateTime.Now)
-            };
-
-            SetupFileSystemWatcher();
         }
         private async void UpdateTimer_Tick(object sender, EventArgs e)
         {

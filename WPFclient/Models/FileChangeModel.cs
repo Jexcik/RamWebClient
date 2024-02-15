@@ -8,78 +8,20 @@ using System.Threading.Tasks;
 
 namespace WPFclient.Models
 {
-    public class FileChangeModel:INotifyPropertyChanged
+    public class FileChangeModel
     {
-        public FileChangeModel(string fileName, string filePath, string author, DateTime dateChange)
-        {
-            FileName = fileName;
-            FilePath = filePath;
-            Author = author;
-            DateChange = dateChange;
-        }
+        public string FileName { get; set; }
 
-        private string _fileName;
-        private string _filePath;
-        private string _author;
-        private DateTime _date;
+        public string FilePath { get; set; }
 
-        public string FileName
-        {
-            get { return _fileName; }
-            set
-            {
-                if (_fileName != value)
-                {
-                    _fileName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public string AuthorCreation { get; set; }
 
-        public string FilePath
-        {
-            get { return _filePath; }
-            set
-            {
-                if (_filePath != value)
-                {
-                    _filePath = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public string AuthorChange { get; set; }
 
-        public string Author
-        {
-            get { return _author; }
-            set
-            {
-                if (_author != value)
-                {
-                    _author = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public string DateCreation { get; set; }
 
-        public DateTime DateChange
-        {
-            get { return _date; }
-            set
-            {
-                if (_date != value)
-                {
-                    _date = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string DateChange { get; set; }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        public string Action { get; set; }
     }
 }
