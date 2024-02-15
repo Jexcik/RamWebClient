@@ -24,7 +24,7 @@ namespace WPFclient.Views
 
         private readonly DirectoryInfo directoryInfo;
 
-        const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные\04_1_КЖ";
+        const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные\04_2_КM";
 
         public MainWindow()
         {
@@ -36,6 +36,7 @@ namespace WPFclient.Views
 
             var customFiles = filesInfo.Select(fi => new FileChangeModel
             {
+                Status="New",
                 FileName = fi.Name,
                 FilePath = fi.FullName,
                 AuthorCreation= GetFileChangeAuthor(fi.FullName).Item1,
@@ -158,7 +159,7 @@ namespace WPFclient.Views
                     DateChange = DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy"),
                     AuthorCreation=fileOwner,
                     AuthorChange = lastModifiedBy,
-                    Action = action
+                    Status = action
                 };
                 fileChanges.Add(fileChangeInfo);
             });

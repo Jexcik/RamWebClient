@@ -22,6 +22,6 @@ namespace WPFclient.Models
 
         public string DateChange { get; set; }
 
-        public string Action { get; set; }
+        public string Status { get; set; }
     }
 }

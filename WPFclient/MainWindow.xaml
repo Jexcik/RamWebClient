@@ -381,7 +381,7 @@
                                 <DataGridTextColumn 
                                     Header="Действие"
                                     Width="Auto"
-                                    Binding="{Binding Action}"
+                                    Binding="{Binding Status}"
                                     IsReadOnly="True"/>
 
                                 <DataGridTextColumn 
