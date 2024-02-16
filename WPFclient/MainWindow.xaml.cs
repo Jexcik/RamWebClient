@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Windows;
 using System.Windows.Controls;
 using WPFclient.Models;
@@ -18,65 +17,31 @@ namespace WPFclient.Views
     public partial class MainWindow : Window
     {
         private TaskbarIcon notifyIcon;
-        private readonly MainWindowVM viewModel;
-        private FileSystemWatcher fileSystemWatcher;
-        private ObservableCollection<FileChangeModel> fileChanges;
-
-        private readonly DirectoryInfo directoryInfo;
-
-        const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные\04_2_КM";
 
         public MainWindow()
         {
             InitializeComponent();
 
-            directoryInfo = new DirectoryInfo(filePath);
-
-            FileInfo[] filesInfo = directoryInfo.GetFiles("*.rvt");
-
-            var customFiles = filesInfo.Select(fi => new FileChangeModel
-            {
-                Status="New",
-                FileName = fi.Name,
-                FilePath = fi.FullName,
-                AuthorCreation= GetFileChangeAuthor(fi.FullName).Item1,
-                AuthorChange= GetFileChangeAuthor(fi.FullName).Item2,
-                DateCreation = fi.CreationTime.ToString("HH:mm:ss dd.MM.yyyy"),
-                DateChange=fi.LastWriteTime.ToString("HH:mm:ss dd.MM.yyyy")
-            });
-
-            fileChanges = new ObservableCollection<FileChangeModel>(customFiles);
-
-            fileChangesDataGrid.ItemsSource = fileChanges;
-
-            InitializeFileSystemWatcher(filePath);
-
-            viewModel = new MainWindowVM();
-
-            DataContext = viewModel;
-
-            InitializeTray();
-
         }
 
-        private void InitializeTray()
+        private void InitializeTray(MainWindowVM mainWindowVM)
         {
             //Инициализация TaskBarIcon
             notifyIcon = new TaskbarIcon();
             notifyIcon.Icon = new Icon(Properties.Resource.logoRAM, new System.Drawing.Size(16, 16));
             notifyIcon.ToolTipText = "Launcher";
-            notifyIcon.LeftClickCommand = viewModel.LeftClickCommand;
+            notifyIcon.LeftClickCommand = mainWindowVM.LeftClickCommand;
 
             //Создаем меню и связываем его с командой
             var trayContextMenu = new ContextMenu();
 
             MenuItem mi_Open = new MenuItem();
             mi_Open.Header = "Открыть";
-            mi_Open.Command = viewModel.TrayOpenClickCommand;
+            mi_Open.Command = mainWindowVM.TrayOpenClickCommand;
 
             MenuItem mi_Close = new MenuItem();
             mi_Close.Header = "Выход";
-            mi_Close.Command = viewModel.TrayCloseClickCommand;
+            mi_Close.Command = mainWindowVM.TrayCloseClickCommand;
 
             trayContextMenu.Items.Add(mi_Open);
             trayContextMenu.Items.Add(mi_Close);
@@ -84,16 +49,16 @@ namespace WPFclient.Views
             notifyIcon.ContextMenu = trayContextMenu;
 
             //Подписка на событие открытия основного окна
-            viewModel.OnOpenMainWindow += (sender, args) =>
+            mainWindowVM.OnOpenMainWindow += (sender, args) =>
             {
                 //Показать основное окно
                 this.Show();
                 this.WindowState = WindowState.Normal;
                 this.Activate();
             };
-            viewModel.OnCloseMainWindow += (sender, args) => this.Close();
+            mainWindowVM.OnCloseMainWindow += (sender, args) => this.Close();
 
-            viewModel.OnShowNotification += (sender, args) => ShowNotification("Revit", viewModel.TextInfo);
+            mainWindowVM.OnShowNotification += (sender, args) => ShowNotification("Revit", mainWindowVM.TextInfo);
         }
 
         private void ShowNotification(string title, string message)
@@ -109,72 +74,26 @@ namespace WPFclient.Views
             base.OnStateChanged(e);
         }
 
-        #region Внешние службы
-        private void InitializeFileSystemWatcher(string path)
+        private void TabItem1_Loaded(object sender, RoutedEventArgs e)
         {
-            fileSystemWatcher = new FileSystemWatcher();
-            fileSystemWatcher.Path = path;
-            fileSystemWatcher.IncludeSubdirectories = true;
-            fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            fileSystemWatcher.Filter = "*.*";
+            var tabItem=sender as TabItem;
 
-            fileSystemWatcher.Changed += FileSystemWatcher_Changed;
-            fileSystemWatcher.Created += FileSystemWatcher_Created;
-            fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
-            fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
+            var mainWindowVM= new MainWindowVM();
 
-            fileSystemWatcher.EnableRaisingEvents = true;
+            tabItem.DataContext= mainWindowVM;
+
+            InitializeTray(mainWindowVM);
         }
 
-        private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
+        private void TabItem2_Loaded(object sender, RoutedEventArgs e)
         {
+            var tabItem=sender as TabItem;
 
+            var mainWindowVM =new ExternalServicesVM();
+
+            tabItem.DataContext = mainWindowVM;
+
+            fileChangesDataGrid.ItemsSource = mainWindowVM.fileChanges;
         }
-        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
-        {
-
-        }
-
-        private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-
-        }
-
-        private void FileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
-        {
-
-        }
-
-        private void AddFileChangeInfo(string filePath, string action)
-        {
-
-            Dispatcher.Invoke(() =>
-            {
-                (string fileOwner, string lastModifiedBy) = GetFileChangeAuthor(filePath);
-
-                var fileChangeInfo = new FileChangeModel
-                {
-                    FileName = Path.GetFileName(filePath),
-                    FilePath = filePath,
-                    DateChange = DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy"),
-                    AuthorCreation=fileOwner,
-                    AuthorChange = lastModifiedBy,
-                    Status = action
-                };
-                fileChanges.Add(fileChangeInfo);
-            });
-        }
-
-        private (string, string) GetFileChangeAuthor(string filePath)
-        {
-            FileInfo fileInfo = new FileInfo(filePath);
-            string creationAuthor = fileInfo.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
-            string lastModifiedAuthor = System.IO.File.GetAccessControl(filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
-
-            return (creationAuthor, lastModifiedAuthor);
-        }
-
-        #endregion
-
     }
 }

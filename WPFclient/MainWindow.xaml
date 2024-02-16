@@ -90,7 +90,7 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabItem Header="Центр обновлений">
+            <TabItem Header="Центр обновлений" Loaded="TabItem1_Loaded">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -357,7 +357,8 @@
             </TabItem>
 
             <TabItem 
-                Header="Внешние службы">
+                Header="Внешние службы"
+                Loaded="TabItem2_Loaded">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="300*"/>
@@ -392,7 +393,7 @@
 
                                 <DataGridTextColumn 
                                     Header="Путь к файлу"  
-                                    Width="Auto"
+                                    Width="50"
                                     Binding="{Binding FilePath}"
                                     IsReadOnly="True"/>
 
@@ -408,6 +409,12 @@
                                     Binding="{Binding DateChange}"
                                     IsReadOnly="True"/>
 
+                                <DataGridTextColumn
+                                    Header="Автор создания"
+                                    Width="Auto"
+                                    Binding="{Binding AuthorCreation}"
+                                    IsReadOnly="True"/>
+                                
                                 <DataGridTextColumn 
                                     Header="Автор изменения"
                                     Width="Auto"

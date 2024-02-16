@@ -108,6 +108,7 @@
     <Compile Include="Services\FileChangeService.cs" />
     <Compile Include="Services\Interface\IFileChangeService.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
+    <Compile Include="ViewModels\ExternalServicesVM.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
     <Compile Include="Views\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
