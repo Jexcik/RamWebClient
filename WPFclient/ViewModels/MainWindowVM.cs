@@ -200,10 +200,6 @@ namespace WPFclient.ViewModels
 
         #endregion
 
-        #region Внешние службы
-
-        #endregion
-
         public MainWindowVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);

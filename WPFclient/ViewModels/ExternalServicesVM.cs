@@ -1,31 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Threading;
 using WPFclient.Models;
+using WPFclient.Models.Repositories;
 using WPFclient.ViewModels.Base;
 
 namespace WPFclient.ViewModels
 {
-    public class ExternalServicesVM:ViewModel
+    public class ExternalServicesVM : ViewModel
     {
         private FileSystemWatcher fileSystemWatcher;
 
-        public ObservableCollection<FileChangeModel> fileChanges;
+        public ObservableCollection<FileChangeInfo> fileChanges;
 
-        private readonly DirectoryInfo directoryInfo;
+        private DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
+
+        FileInfoInMemoryRepository fileInfoInMemoryRepository;
 
         private const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные\04_1_КЖ";
 
-        public ExternalServicesVM() 
+        public ExternalServicesVM()
         {
-            directoryInfo = new DirectoryInfo(filePath);
-
             FileInfo[] filesInfo = directoryInfo.GetFiles("*.rvt");
 
-            var customFiles = filesInfo.Select(fi => new FileChangeModel
+            fileInfoInMemoryRepository = new FileInfoInMemoryRepository();
+
+            fileInfoInMemoryRepository.GetAll().AddRange(filesInfo.Select(fi => new FileChangeInfo()
             {
                 Status = "New",
                 FileName = fi.Name,
@@ -34,9 +37,9 @@ namespace WPFclient.ViewModels
                 AuthorChange = GetFileChangeAuthor(fi.FullName).Item2,
                 DateCreation = fi.CreationTime.ToString("HH:mm:ss dd.MM.yyyy"),
                 DateChange = fi.LastWriteTime.ToString("HH:mm:ss dd.MM.yyyy")
-            });
+            }));
 
-            fileChanges = new ObservableCollection<FileChangeModel>(customFiles);
+            fileChanges = new ObservableCollection<FileChangeInfo>(fileInfoInMemoryRepository.GetAll());
 
             InitializeFileSystemWatcher(filePath);
         }
@@ -84,7 +87,7 @@ namespace WPFclient.ViewModels
             {
                 (string fileOwner, string lastModifiedBy) = GetFileChangeAuthor(filePath);
 
-                var fileChangeInfo = new FileChangeModel
+                var fileChangeInfo = new Models.FileChangeInfo
                 {
                     FileName = Path.GetFileName(filePath),
                     FilePath = filePath,
@@ -97,10 +100,10 @@ namespace WPFclient.ViewModels
             });
         }
 
-        
+
         private (string, string) GetFileChangeAuthor(string filePath)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
             string creationAuthor = fileInfo.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
             string lastModifiedAuthor = File.GetAccessControl(filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
 

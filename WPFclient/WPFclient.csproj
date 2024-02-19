@@ -102,8 +102,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ApiManager.cs" />
-    <Compile Include="Models\FileChangeModel.cs" />
+    <Compile Include="Models\FileChangeInfo.cs" />
     <Compile Include="Models\FileData.cs" />
+    <Compile Include="Models\Repositories\FileInfoInMemoryRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IFileInfoRepository.cs" />
     <Compile Include="Services\FileChangedEventArgs.cs" />
     <Compile Include="Services\FileChangeService.cs" />
     <Compile Include="Services\Interface\IFileChangeService.cs" />

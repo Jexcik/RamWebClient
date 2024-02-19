@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace WPFclient.Models
 {
-    public class FileChangeModel
+    public class FileChangeInfo
     {
+        public Guid Id { get; set; }
+
         public string FileName { get; set; }
 
         public string FilePath { get; set; }
@@ -23,5 +25,10 @@ namespace WPFclient.Models
         public string DateChange { get; set; }
 
         public string Status { get; set; }
+
+        public FileChangeInfo() 
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }
