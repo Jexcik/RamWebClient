@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace WPFclient.ViewModels.Base
 {
-    public abstract class ViewModel : INotifyPropertyChanged, IDisposable
+    public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

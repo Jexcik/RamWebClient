@@ -10,11 +10,21 @@ using WPFclient.ViewModels.Base;
 
 namespace WPFclient.ViewModels
 {
-    public class ExternalServicesVM : ViewModel
+    public class ExternalServicesVM : ViewModelBase
     {
         private FileSystemWatcher fileSystemWatcher;
 
-        public ObservableCollection<FileChangeInfo> fileChanges;
+        private ObservableCollection<FileChangeInfo> fileChanges;
+
+        public ObservableCollection<FileChangeInfo> FileChanges
+        {
+            get => fileChanges;
+            set
+            {
+                fileChanges = value;
+                OnPropertyChanged(nameof(FileChanges));
+            }
+        }
 
         private DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
 
@@ -24,7 +34,7 @@ namespace WPFclient.ViewModels
 
         public ExternalServicesVM()
         {
-            FileInfo[] filesInfo = directoryInfo.GetFiles("*.rvt");
+            FileInfo[] filesInfo = directoryInfo.GetFiles("*.txt");
 
             fileInfoInMemoryRepository = new FileInfoInMemoryRepository();
 
@@ -33,8 +43,8 @@ namespace WPFclient.ViewModels
                 Status = "New",
                 FileName = fi.Name,
                 FilePath = fi.FullName,
-                AuthorCreation = GetFileChangeAuthor(fi.FullName).Item1,
-                AuthorChange = GetFileChangeAuthor(fi.FullName).Item2,
+                AuthorCreation = GetFileChangeAuthor(fi.FullName).Item1.Split('\\').Last(),
+                AuthorChange = GetFileChangeAuthor(fi.FullName).Item2.Split('\\').Last(),
                 DateCreation = fi.CreationTime.ToString("HH:mm:ss dd.MM.yyyy"),
                 DateChange = fi.LastWriteTime.ToString("HH:mm:ss dd.MM.yyyy")
             }));
@@ -63,16 +73,28 @@ namespace WPFclient.ViewModels
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            AddFileChangeInfo(e.FullPath, e.Name);
+            if (FileChanges.FirstOrDefault(fc => fc.FileName != e.Name) == null)
+            {
+                FileChanges.FirstOrDefault(fc => fc.FileName == e.Name).Status = e.ChangeType.ToString();
+            }
         }
         private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            AddFileChangeInfo(e.FullPath, e.Name);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (FileChanges.FirstOrDefault(fc => fc.FileName == e.Name) == null)
+                {
+                    FileChangeInfo fileChangeInfo = AddFileChangeInfo(e.FullPath, e.ChangeType.ToString());
+
+                    FileChanges.Add(fileChangeInfo);
+                }
+            });
         }
 
         private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
 
+            //FileChanges.Remove(fileChangeInfo);
         }
 
         private void FileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
@@ -80,24 +102,20 @@ namespace WPFclient.ViewModels
 
         }
 
-        private void AddFileChangeInfo(string filePath, string action)
+        private FileChangeInfo AddFileChangeInfo(string filePath, string action)
         {
+            FileChangeInfo fileChangeInfo = new FileChangeInfo();
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                (string fileOwner, string lastModifiedBy) = GetFileChangeAuthor(filePath);
+            (string fileOwner, string lastModifiedBy) = GetFileChangeAuthor(filePath);
 
-                var fileChangeInfo = new Models.FileChangeInfo
-                {
-                    FileName = Path.GetFileName(filePath),
-                    FilePath = filePath,
-                    DateChange = DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy"),
-                    AuthorCreation = fileOwner,
-                    AuthorChange = lastModifiedBy,
-                    Status = action
-                };
-                fileChanges.Add(fileChangeInfo);
-            });
+            fileChangeInfo.FileName = Path.GetFileName(filePath);
+            fileChangeInfo.FilePath = filePath;
+            fileChangeInfo.DateChange = DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy");
+            fileChangeInfo.AuthorCreation = fileOwner;
+            fileChangeInfo.AuthorChange = lastModifiedBy;
+            fileChangeInfo.Status = action;
+
+            return fileChangeInfo;
         }
 
 

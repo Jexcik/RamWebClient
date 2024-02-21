@@ -8,7 +8,7 @@ using WPFclient.ViewModels.Base;
 
 namespace WPFclient.ViewModels
 {
-    public class RegisterVM : ViewModel
+    public class RegisterVM : ViewModelBase
     {
         private readonly string apiBaseUrl = "http://a22946-8c78.g.d-f.pw/api/account/register";
         #region TextBox

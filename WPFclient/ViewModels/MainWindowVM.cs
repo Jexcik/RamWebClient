@@ -14,7 +14,7 @@ using WPFclient.Views;
 
 namespace WPFclient.ViewModels
 {
-    public class MainWindowVM : ViewModel
+    public class MainWindowVM : ViewModelBase
     {
         #region Центр обновлений
 

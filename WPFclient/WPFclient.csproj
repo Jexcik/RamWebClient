@@ -112,6 +112,7 @@
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\ExternalServicesVM.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
@@ -134,7 +135,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Base\ViewModel.cs" />
+    <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="ViewModels\LoginWindowVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="LoginWindow.xaml.cs">

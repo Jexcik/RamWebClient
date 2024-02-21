@@ -5,12 +5,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WPFclient.ViewModels.Base;
 
 namespace WPFclient.Models
 {
-    public class FileChangeInfo
+    public class FileChangeInfo:ViewModelBase
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         public string FileName { get; set; }
 
@@ -24,7 +25,21 @@ namespace WPFclient.Models
 
         public string DateChange { get; set; }
 
-        public string Status { get; set; }
+        private string status;
+
+        public string Status
+        {
+            get => status;
+
+            set
+            {
+                if(status!=value)
+                {
+                    status = value;
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+        }
 
         public FileChangeInfo() 
         {

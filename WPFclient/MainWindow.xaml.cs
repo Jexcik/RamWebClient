@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using UIFramework;
 using WPFclient.Models;
 using WPFclient.ViewModels;
 
@@ -18,10 +19,17 @@ namespace WPFclient.Views
     {
         private TaskbarIcon notifyIcon;
 
+        ViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            viewModel = new ViewModel();
+
+            DataContext = viewModel;
+
+            InitializeTray(viewModel.MainWindowVM);
         }
 
         private void InitializeTray(MainWindowVM mainWindowVM)
@@ -72,28 +80,6 @@ namespace WPFclient.Views
                 this.Hide();
             }
             base.OnStateChanged(e);
-        }
-
-        private void TabItem1_Loaded(object sender, RoutedEventArgs e)
-        {
-            var tabItem=sender as TabItem;
-
-            var mainWindowVM= new MainWindowVM();
-
-            tabItem.DataContext= mainWindowVM;
-
-            InitializeTray(mainWindowVM);
-        }
-
-        private void TabItem2_Loaded(object sender, RoutedEventArgs e)
-        {
-            var tabItem=sender as TabItem;
-
-            var mainWindowVM =new ExternalServicesVM();
-
-            tabItem.DataContext = mainWindowVM;
-
-            fileChangesDataGrid.ItemsSource = mainWindowVM.fileChanges;
         }
     }
 }

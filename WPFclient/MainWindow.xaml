@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPFclient.ViewModels"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        d:DataContext="{d:DesignInstance Type=vm:MainWindowVM}"
-        Title="{Binding Title}" 
         Height="500" 
         Width="500" 
         WindowStartupLocation="CenterScreen" 
         Icon="/Resources/logoRAM.ico"
         ResizeMode="CanResize"
         ShowInTaskbar="False">
+
+    <Window.Resources>
+        <vm:MainWindowVM x:Key="MainWindowVM"/>
+        <vm:ExternalServicesVM x:Key="ExternalServicesVM"/>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -90,7 +93,7 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabItem Header="Центр обновлений" Loaded="TabItem1_Loaded">
+            <TabItem Header="Центр обновлений" DataContext="{StaticResource MainWindowVM}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -357,8 +360,7 @@
             </TabItem>
 
             <TabItem 
-                Header="Внешние службы"
-                Loaded="TabItem2_Loaded">
+                Header="Внешние службы" DataContext="{StaticResource ExternalServicesVM}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="300*"/>
@@ -377,7 +379,8 @@
                         <DataGrid 
                             Name="fileChangesDataGrid" 
                             AutoGenerateColumns="False" 
-                            VerticalScrollBarVisibility="Hidden">
+                            VerticalScrollBarVisibility="Hidden"
+                            ItemsSource="{Binding Path=FileChanges}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn 
                                     Header="Действие"
@@ -414,7 +417,7 @@
                                     Width="Auto"
                                     Binding="{Binding AuthorCreation}"
                                     IsReadOnly="True"/>
-                                
+
                                 <DataGridTextColumn 
                                     Header="Автор изменения"
                                     Width="Auto"
@@ -425,7 +428,6 @@
                     </StackPanel>
 
                     <Button 
-                        Command="{Binding UnloadCommand}"
                         Grid.Column="1"
                         Grid.Row="3"
                         Height="100"
@@ -466,7 +468,7 @@
                     </Button>
                 </Grid>
             </TabItem>
-            
+
             <TabItem
                 Header="Сервис статистики">
                 <Grid>

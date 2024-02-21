@@ -14,7 +14,7 @@ using WPFclient.Views;
 
 namespace WPFclient.ViewModels
 {
-    public class LoginWindowVM : ViewModel
+    public class LoginWindowVM : ViewModelBase
     {
         private string userName;
         public string UserName
