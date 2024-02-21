@@ -73,7 +73,7 @@ namespace WPFclient.ViewModels
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            if (FileChanges.FirstOrDefault(fc => fc.FileName != e.Name) == null)
+            if (FileChanges.FirstOrDefault(fc => fc.FileName))
             {
                 FileChanges.FirstOrDefault(fc => fc.FileName == e.Name).Status = e.ChangeType.ToString();
             }
