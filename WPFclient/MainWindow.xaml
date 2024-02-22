@@ -363,14 +363,124 @@
                 Header="Внешние службы" DataContext="{StaticResource ExternalServicesVM}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="300*"/>
+                        <RowDefinition Height="100"/>
                         <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Vertical">
+                    <DockPanel>
+                        <TextBlock 
+                            DockPanel.Dock="Top" 
+                            Text="Общие данные" 
+                            FontWeight="Bold" 
+                            FontSize="14" 
+                            HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal" Height="Auto">
+                            <Button 
+                                Height="Auto" 
+                                Width="100" 
+                                Background="DeepSkyBlue"
+                                Margin="5,0,0,0">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate 
+                                                    TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="White"
+                                                    BorderThickness="0"
+                                                    CornerRadius="10">
+                                                        <ContentPresenter 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger 
+                                        Property="IsPressed" 
+                                        Value="True">
+                                                <Setter 
+                                            Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform 
+                                                    ScaleX="0.98" 
+                                                    ScaleY="0.98"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <TextBlock 
+                                    LineHeight="10" 
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold" 
+                                    Foreground="White" 
+                                    TextAlignment="Center"><Run 
+                                        Text="Отчистить"/><LineBreak/><Run 
+                                        Text="папку"/><LineBreak/><Run 
+                                        Text="обмен"/>
+                                </TextBlock>
+                            </Button>
+
+                            <Button 
+                                Background="DeepSkyBlue" 
+                                Height="Auto"
+                                Width="100"
+                                Margin="5,0,0,0"
+                                Command="{Binding Path=OpenMonitoringCommand}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate 
+                                                    TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="White"
+                                                    BorderThickness="0"
+                                                    CornerRadius="10">
+                                                        <ContentPresenter 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger 
+                                        Property="IsPressed" 
+                                        Value="True">
+                                                <Setter 
+                                            Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform 
+                                                    ScaleX="0.98" 
+                                                    ScaleY="0.98"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <TextBlock 
+                                    LineHeight="10" 
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold" 
+                                    Foreground="White" 
+                                    TextAlignment="Center">
+                                    Мониторинг<LineBreak/>папок
+                                </TextBlock>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <!--<StackPanel Orientation="Vertical">
                         <TextBlock 
                             Text="Изменения в Общих данных" 
                             FontSize="14" 
@@ -425,47 +535,7 @@
                                     IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </StackPanel>
-
-                    <Button 
-                        Grid.Column="1"
-                        Grid.Row="3"
-                        Height="100"
-                        Width="100"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="DeepSkyBlue"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate 
-                                            TargetType="Button">
-                                            <Border 
-                                                Background="{TemplateBinding Background}"
-                                                BorderBrush="White"
-                                                BorderThickness="0"
-                                                CornerRadius="15">
-                                                <TextBlock Text="Выгрузить модель" FontFamily="FontAwesome" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="SeaGreen"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="True">
-                                                    <Setter Property="RenderTransform">
-                                                        <Setter.Value>
-                                                            <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    </StackPanel>-->
                 </Grid>
             </TabItem>
 

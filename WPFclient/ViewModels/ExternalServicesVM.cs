@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
 using WPFclient.Models.Repositories;
 using WPFclient.ViewModels.Base;
+using WPFclient.Views;
 
 namespace WPFclient.ViewModels
 {
@@ -40,7 +42,7 @@ namespace WPFclient.ViewModels
 
             fileInfoInMemoryRepository.GetAll().AddRange(filesInfo.Select(fi => new FileChangeInfo()
             {
-                Status = "New",
+                Status = "Created",
                 FileName = fi.Name,
                 FilePath = fi.FullName,
                 AuthorCreation = GetFileChangeAuthor(fi.FullName).Item1.Split('\\').Last(),
@@ -52,6 +54,8 @@ namespace WPFclient.ViewModels
             fileChanges = new ObservableCollection<FileChangeInfo>(fileInfoInMemoryRepository.GetAll());
 
             InitializeFileSystemWatcher(filePath);
+
+            OpenMonitoringCommand = new RelayCommand(OpenMonitoring, p => true);
         }
 
         #region Внешние службы
@@ -64,8 +68,9 @@ namespace WPFclient.ViewModels
             fileSystemWatcher.Filter = "*.*";
 
             fileSystemWatcher.Changed += FileSystemWatcher_Changed;
-            fileSystemWatcher.Created += FileSystemWatcher_Created;
+
             fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
+
             fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
 
             fileSystemWatcher.EnableRaisingEvents = true;
@@ -73,22 +78,28 @@ namespace WPFclient.ViewModels
 
         private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            if (FileChanges.FirstOrDefault(fc => fc.FileName))
-            {
-                FileChanges.FirstOrDefault(fc => fc.FileName == e.Name).Status = e.ChangeType.ToString();
-            }
-        }
-        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
-        {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (FileChanges.FirstOrDefault(fc => fc.FileName == e.Name) == null)
                 {
-                    FileChangeInfo fileChangeInfo = AddFileChangeInfo(e.FullPath, e.ChangeType.ToString());
+                    FileChangeInfo fileChangeInfo = AddFileChangeInfo(e.FullPath, "Created");
 
                     FileChanges.Add(fileChangeInfo);
                 }
+                else
+                {
+                    FileChangeInfo fileChangeInfo = FileChanges.FirstOrDefault(fc => fc.FileName == e.Name);
+
+                    fileChangeInfo.Status = e.ChangeType.ToString();
+
+                    fileChangeInfo.DateChange = DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy");
+                }
             });
+        }
+
+        private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
+        {
+
         }
 
         private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
@@ -126,6 +137,18 @@ namespace WPFclient.ViewModels
             string lastModifiedAuthor = File.GetAccessControl(filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
 
             return (creationAuthor, lastModifiedAuthor);
+        }
+
+        #endregion
+
+        #region Command
+        public ICommand OpenMonitoringCommand { get; }
+
+        private void OpenMonitoring(object parameter)
+        {
+            MonitoringWindow monitoringWindow = new MonitoringWindow();
+
+            monitoringWindow.Show();
         }
 
         #endregion

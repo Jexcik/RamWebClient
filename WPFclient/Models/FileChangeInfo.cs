@@ -23,19 +23,32 @@ namespace WPFclient.Models
 
         public string DateCreation { get; set; }
 
-        public string DateChange { get; set; }
-
-        private string status;
-
-        public string Status
+        private string _dateChange;
+        public string DateChange
         {
-            get => status;
+            get => _dateChange;
 
             set
             {
-                if(status!=value)
+                if(_dateChange !=value)
                 {
-                    status = value;
+                    _dateChange = value;
+                    OnPropertyChanged(nameof(DateChange));
+                }
+            }
+        }
+
+        private string _status;
+
+        public string Status
+        {
+            get => _status;
+
+            set
+            {
+                if(_status!=value)
+                {
+                    _status = value;
                     OnPropertyChanged(nameof(Status));
                 }
             }
