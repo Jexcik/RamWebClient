@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WPFclient.ViewModels;
 
 namespace WPFclient.Views
 {

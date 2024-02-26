@@ -13,8 +13,8 @@
         ShowInTaskbar="False">
 
     <Window.Resources>
-        <vm:MainWindowVM x:Key="MainWindowVM"/>
-        <vm:ExternalServicesVM x:Key="ExternalServicesVM"/>
+        <vm:UpdateCenterTabVM x:Key="MainWindowVM"/>
+        <vm:ExternalServTabVM x:Key="ExternalServTabVM"/>
     </Window.Resources>
 
     <Grid>
@@ -360,7 +360,7 @@
             </TabItem>
 
             <TabItem 
-                Header="Внешние службы" DataContext="{StaticResource ExternalServicesVM}">
+                Header="Внешние службы" DataContext="{StaticResource ExternalServTabVM}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -479,63 +479,6 @@
                             </Button>
                         </StackPanel>
                     </DockPanel>
-
-                    <!--<StackPanel Orientation="Vertical">
-                        <TextBlock 
-                            Text="Изменения в Общих данных" 
-                            FontSize="14" 
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"/>
-                        <DataGrid 
-                            Name="fileChangesDataGrid" 
-                            AutoGenerateColumns="False" 
-                            VerticalScrollBarVisibility="Hidden"
-                            ItemsSource="{Binding Path=FileChanges}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn 
-                                    Header="Действие"
-                                    Width="Auto"
-                                    Binding="{Binding Status}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn 
-                                    Header="Имя модели" 
-                                    Width="Auto" 
-                                    Binding="{Binding FileName}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn 
-                                    Header="Путь к файлу"  
-                                    Width="50"
-                                    Binding="{Binding FilePath}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn 
-                                    Header="Дата создания" 
-                                    Width="Auto" 
-                                    Binding="{Binding DateCreation}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn 
-                                    Header="Дата изменения" 
-                                    Width="Auto" 
-                                    Binding="{Binding DateChange}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn
-                                    Header="Автор создания"
-                                    Width="Auto"
-                                    Binding="{Binding AuthorCreation}"
-                                    IsReadOnly="True"/>
-
-                                <DataGridTextColumn 
-                                    Header="Автор изменения"
-                                    Width="Auto"
-                                    Binding="{Binding AuthorChange}"
-                                    IsReadOnly="True"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>-->
                 </Grid>
             </TabItem>
 

@@ -11,13 +11,9 @@ namespace WPFclient.ViewModels
     {
         public ViewModel()
         {
-            MainWindowVM = new MainWindowVM();
-
-            ExternalServicesVM = new ExternalServicesVM();
+            MainWindowVM = new UpdateCenterTabVM();
         }
 
-        public MainWindowVM MainWindowVM { get; set; }
-
-        public ExternalServicesVM ExternalServicesVM { get; set; }
+        public UpdateCenterTabVM MainWindowVM { get; set; }
     }
 }

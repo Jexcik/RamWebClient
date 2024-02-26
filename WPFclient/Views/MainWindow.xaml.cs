@@ -1,13 +1,8 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System;
-using System.Collections.ObjectModel;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using UIFramework;
-using WPFclient.Models;
 using WPFclient.ViewModels;
 
 namespace WPFclient.Views
@@ -32,7 +27,7 @@ namespace WPFclient.Views
             InitializeTray(viewModel.MainWindowVM);
         }
 
-        private void InitializeTray(MainWindowVM mainWindowVM)
+        private void InitializeTray(UpdateCenterTabVM mainWindowVM)
         {
             //Инициализация TaskBarIcon
             notifyIcon = new TaskbarIcon();

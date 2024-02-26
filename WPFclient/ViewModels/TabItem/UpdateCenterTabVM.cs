@@ -14,7 +14,7 @@ using WPFclient.Views;
 
 namespace WPFclient.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class UpdateCenterTabVM : ViewModelBase
     {
         #region Центр обновлений
 
@@ -200,7 +200,7 @@ namespace WPFclient.ViewModels
 
         #endregion
 
-        public MainWindowVM()
+        public UpdateCenterTabVM()
         {
             AuthorizationCommand = new RelayCommand(AuthenticateAndDownload, p => true);
 

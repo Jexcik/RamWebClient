@@ -3,40 +3,25 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
-using WPFclient.Infrastructure.Commands;
 using WPFclient.Models;
 using WPFclient.Models.Repositories;
 using WPFclient.ViewModels.Base;
-using WPFclient.Views;
 
 namespace WPFclient.ViewModels
 {
     public class ExternalServicesVM : ViewModelBase
     {
-        private FileSystemWatcher fileSystemWatcher;
-
-        private ObservableCollection<FileChangeInfo> fileChanges;
-
-        public ObservableCollection<FileChangeInfo> FileChanges
-        {
-            get => fileChanges;
-            set
-            {
-                fileChanges = value;
-                OnPropertyChanged(nameof(FileChanges));
-            }
-        }
-
         private DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
 
         FileInfoInMemoryRepository fileInfoInMemoryRepository;
 
         private const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные\04_1_КЖ";
 
+        private FileSystemWatcher fileSystemWatcher;
+
         public ExternalServicesVM()
         {
-            FileInfo[] filesInfo = directoryInfo.GetFiles("*.txt");
+            FileInfo[] filesInfo = directoryInfo.GetFiles("*.rvt", SearchOption.AllDirectories);
 
             fileInfoInMemoryRepository = new FileInfoInMemoryRepository();
 
@@ -54,8 +39,6 @@ namespace WPFclient.ViewModels
             fileChanges = new ObservableCollection<FileChangeInfo>(fileInfoInMemoryRepository.GetAll());
 
             InitializeFileSystemWatcher(filePath);
-
-            OpenMonitoringCommand = new RelayCommand(OpenMonitoring, p => true);
         }
 
         #region Внешние службы
@@ -65,7 +48,7 @@ namespace WPFclient.ViewModels
             fileSystemWatcher.Path = path;
             fileSystemWatcher.IncludeSubdirectories = true;
             fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            fileSystemWatcher.Filter = "*.*";
+            fileSystemWatcher.Filter = "*.rvt*";
 
             fileSystemWatcher.Changed += FileSystemWatcher_Changed;
 
@@ -140,17 +123,17 @@ namespace WPFclient.ViewModels
         }
 
         #endregion
+        private ObservableCollection<FileChangeInfo> fileChanges;
 
-        #region Command
-        public ICommand OpenMonitoringCommand { get; }
-
-        private void OpenMonitoring(object parameter)
+        public ObservableCollection<FileChangeInfo> FileChanges
         {
-            MonitoringWindow monitoringWindow = new MonitoringWindow();
-
-            monitoringWindow.Show();
+            get => fileChanges;
+            set
+            {
+                fileChanges = value;
+                OnPropertyChanged(nameof(FileChanges));
+            }
         }
 
-        #endregion
     }
 }
