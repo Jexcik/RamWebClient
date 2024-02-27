@@ -20,6 +20,8 @@ namespace WPFclient.ViewModels.TabItem
 
             monitoringWindow.DataContext = new ExternalServicesVM();
 
+            monitoringWindow.WindowState=System.Windows.WindowState.Maximized;
+
             monitoringWindow.Show();
         }
         #endregion

@@ -135,5 +135,19 @@ namespace WPFclient.ViewModels
             }
         }
 
+        private string _title = "Папка обмен";
+
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+
+
     }
 }
