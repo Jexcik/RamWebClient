@@ -44,6 +44,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\logoRAM.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WPFclient.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=5.0.3.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Revit_API_x64.2024.0.2\lib\NET480\AdWindows.dll</HintPath>
@@ -190,6 +193,7 @@
     <Compile Include="Models\FileData.cs" />
     <Compile Include="Models\Repositories\FileInfoInMemoryRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IFileInfoRepository.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Services\FileChangedEventArgs.cs" />
     <Compile Include="Services\FileChangeService.cs" />
     <Compile Include="Services\Interface\IFileChangeService.cs" />
