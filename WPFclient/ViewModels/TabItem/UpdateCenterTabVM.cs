@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,7 +11,7 @@ using WPFclient.Models;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
 
-namespace WPFclient.ViewModels
+namespace WPFclient.ViewModels.TabItem
 {
     public class UpdateCenterTabVM : ViewModelBase
     {

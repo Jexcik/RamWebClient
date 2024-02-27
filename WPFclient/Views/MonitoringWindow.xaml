@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:WPFclient.ViewModels"
         xmlns:local="clr-namespace:WPFclient.Views"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800" ResizeMode="NoResize">
+        Title="{Binding Path=Title}" Height="450" Width="800" ResizeMode="NoResize">
 
     <Window.Resources>
         <vm:ExternalServicesVM x:Key="ExternalServicesVM"/>

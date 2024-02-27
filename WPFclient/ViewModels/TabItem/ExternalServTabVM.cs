@@ -3,7 +3,7 @@ using WPFclient.Infrastructure.Commands;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
 
-namespace WPFclient.ViewModels
+namespace WPFclient.ViewModels.TabItem
 {
     public class ExternalServTabVM : ViewModelBase
     {
@@ -19,6 +19,8 @@ namespace WPFclient.ViewModels
             MonitoringWindow monitoringWindow = new MonitoringWindow();
 
             monitoringWindow.DataContext = new ExternalServicesVM();
+
+            monitoringWindow.WindowState=System.Windows.WindowState.Maximized;
 
             monitoringWindow.Show();
         }
