@@ -1,8 +1,11 @@
 ﻿<Application x:Class="WPFclient.Views.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WPFclient.ViewModels"
              StartupUri="/Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
-using WPFclient.ViewModels;
+using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.Views
 {
@@ -11,12 +13,15 @@ namespace WPFclient.Views
     /// </summary>
     public partial class App : Application
     {
+        public static bool IsDesignMode { get; private set; } = true;
+
         private static IHost _Host;
 
         public static IHost Host = _Host ?? Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            IsDesignMode = false;
             var host = Host;
             base.OnStartup(e);
 
@@ -35,7 +40,13 @@ namespace WPFclient.Views
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddSingleton<ViewModel>();
+            services.AddSingleton<UpdateCenterTabVM>();
         }
+
+        public static string CurrentDirectory => IsDesignMode
+            ? Path.GetDirectoryName(GetSourceCodePath())
+            : Environment.CurrentDirectory;
+
+        private static string GetSourceCodePath([CallerFilePath] string path = null) => path;
     }
 }

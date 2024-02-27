@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using WPFclient.ViewModels;
+using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.Views
 {
@@ -21,8 +22,6 @@ namespace WPFclient.Views
             InitializeComponent();
 
             viewModel = new ViewModel();
-
-            DataContext = viewModel;
 
             InitializeTray(viewModel.MainWindowVM);
         }

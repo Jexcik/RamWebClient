@@ -3,7 +3,7 @@ using WPFclient.Infrastructure.Commands;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
 
-namespace WPFclient.ViewModels
+namespace WPFclient.ViewModels.TabItem
 {
     public class ExternalServTabVM : ViewModelBase
     {

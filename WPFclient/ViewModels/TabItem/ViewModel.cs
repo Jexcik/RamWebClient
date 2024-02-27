@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WPFclient.ViewModels.Base;
 
-namespace WPFclient.ViewModels
+namespace WPFclient.ViewModels.TabItem
 {
     public class ViewModel : ViewModelBase
     {
