@@ -194,9 +194,7 @@
     <Compile Include="Models\Repositories\FileInfoInMemoryRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IFileInfoRepository.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Services\FileChangedEventArgs.cs" />
-    <Compile Include="Services\FileChangeService.cs" />
-    <Compile Include="Services\Interface\IFileChangeService.cs" />
+    <Compile Include="Services\FileChangeDataService.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\ExternalServicesVM.cs" />
     <Compile Include="ViewModels\TabItem\ExternalServTabVM.cs" />
@@ -268,7 +266,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Interface\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

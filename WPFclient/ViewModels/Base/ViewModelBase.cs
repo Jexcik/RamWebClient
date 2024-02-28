@@ -8,7 +8,7 @@ namespace WPFclient.ViewModels.Base
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             throw new NotImplementedException();
         }
