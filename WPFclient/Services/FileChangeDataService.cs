@@ -4,22 +4,23 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using WPFclient.Models;
+using WPFclient.Services.Interfaces;
 
 namespace WPFclient.Services
 {
-    public class FileChangeDataService
+    public class FileChangeDataService : IFileChangeDataService
     {
         private DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
 
-        internal List<FileChangeInfo> FileChanges { get; set; }
+        public List<FileChangeInfo> FileChanges { get; set; }
 
-        private const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\03_Публикация";
+        private const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные";
 
         public FileChangeDataService()
         {
             FileChanges = new List<FileChangeInfo>();
 
-            FileInfo[] filesInfo = directoryInfo.GetFiles("*.nwd", SearchOption.AllDirectories);
+            FileInfo[] filesInfo = directoryInfo.GetFiles("*.rvt", SearchOption.AllDirectories);
 
             FileChanges.AddRange(filesInfo.Select(fi => new FileChangeInfo()
             {
@@ -40,7 +41,7 @@ namespace WPFclient.Services
             fileSystemWatcher.Path = path;
             fileSystemWatcher.IncludeSubdirectories = true;
             fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            fileSystemWatcher.Filter = "*.nwd*";
+            fileSystemWatcher.Filter = "*.rvt*";
 
             fileSystemWatcher.Changed += FileSystemWatcher_Changed;
 
@@ -107,7 +108,7 @@ namespace WPFclient.Services
         private (string, string) GetFileChangeAuthor(string filePath)
         {
             FileInfo fileInfo = new FileInfo(filePath);
-            string creationAuthor = fileInfo.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount))?.ToString()??"Владелец файла не найден!";
+            string creationAuthor = fileInfo.GetAccessControl().GetOwner(typeof(System.Security.Principal.NTAccount))?.ToString() ?? "Владелец файла не найден!";
             string lastModifiedAuthor = File.GetAccessControl(filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
 
             return (creationAuthor, lastModifiedAuthor);

@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using WPFclient.Services;
+using WPFclient.Services.Interfaces;
 using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.Views
@@ -41,6 +43,8 @@ namespace WPFclient.Views
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddSingleton<UpdateCenterTabVM>();
+
+            services.AddSingleton<IFileChangeDataService, FileChangeDataService>();
         }
 
         public static string CurrentDirectory => IsDesignMode

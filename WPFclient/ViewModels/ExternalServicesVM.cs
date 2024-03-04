@@ -1,16 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using WPFclient.Models;
 using WPFclient.Services;
+using WPFclient.Services.Interfaces;
 using WPFclient.ViewModels.Base;
 
 namespace WPFclient.ViewModels
 {
     public class ExternalServicesVM : ViewModelBase
     {
-        private readonly FileChangeDataService _fileChangeDataService;
-        public ExternalServicesVM()
+        private readonly IFileChangeDataService _fileChangeDataService;
+        public ExternalServicesVM(IFileChangeDataService fileChangeDataService)
         {
-            _fileChangeDataService = new FileChangeDataService();
+            _fileChangeDataService = fileChangeDataService;
 
             fileChanges = new ObservableCollection<FileChangeInfo>(_fileChangeDataService.FileChanges);
         }

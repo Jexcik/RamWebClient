@@ -195,6 +195,7 @@
     <Compile Include="Models\Repositories\Interfaces\IFileInfoRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\FileChangeDataService.cs" />
+    <Compile Include="Services\Interfaces\IFileChangeDataService.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\ExternalServicesVM.cs" />
     <Compile Include="ViewModels\TabItem\ExternalServTabVM.cs" />
@@ -266,9 +267,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Interface\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
