@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using WPFclient.Services;
 using WPFclient.Services.Interfaces;
+using WPFclient.ViewModels;
 using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.Views
@@ -13,7 +14,7 @@ namespace WPFclient.Views
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         public static bool IsDesignMode { get; private set; } = true;
 
@@ -42,9 +43,10 @@ namespace WPFclient.Views
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddSingleton<UpdateCenterTabVM>();
-
             services.AddSingleton<IFileChangeDataService, FileChangeDataService>();
+            services.AddSingleton<MainWindow>();
+
+            services.RegisterViewModel();
         }
 
         public static string CurrentDirectory => IsDesignMode

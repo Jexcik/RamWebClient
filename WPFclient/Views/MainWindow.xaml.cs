@@ -16,53 +16,52 @@ namespace WPFclient.Views
     {
         private TaskbarIcon notifyIcon;
 
-        ViewModel viewModel;
-
+        UpdateCenterTabVM _updateCenterTabVM;
         public MainWindow()
         {
             InitializeComponent();
 
-            viewModel = new ViewModel();
+            //_updateCenterTabVM = updateCenterTabVM;
 
-            InitializeTray(viewModel.MainWindowVM);
+            //InitializeTray(_updateCenterTabVM);
         }
 
-        private void InitializeTray(UpdateCenterTabVM mainWindowVM)
-        {
-            //Инициализация TaskBarIcon
-            notifyIcon = new TaskbarIcon();
-            notifyIcon.Icon = new Icon(Properties.Resource.logoRAM, new System.Drawing.Size(16, 16));
-            notifyIcon.ToolTipText = "Launcher";
-            notifyIcon.LeftClickCommand = mainWindowVM.LeftClickCommand;
+        //private void InitializeTray(UpdateCenterTabVM mainWindowVM)
+        //{
+        //    //Инициализация TaskBarIcon
+        //    notifyIcon = new TaskbarIcon();
+        //    notifyIcon.Icon = new Icon(Properties.Resource.logoRAM, new System.Drawing.Size(16, 16));
+        //    notifyIcon.ToolTipText = "Launcher";
+        //    notifyIcon.LeftClickCommand = mainWindowVM.LeftClickCommand;
 
-            //Создаем меню и связываем его с командой
-            var trayContextMenu = new ContextMenu();
+        //    //Создаем меню и связываем его с командой
+        //    var trayContextMenu = new ContextMenu();
 
-            MenuItem mi_Open = new MenuItem();
-            mi_Open.Header = "Открыть";
-            mi_Open.Command = mainWindowVM.TrayOpenClickCommand;
+        //    MenuItem mi_Open = new MenuItem();
+        //    mi_Open.Header = "Открыть";
+        //    mi_Open.Command = mainWindowVM.TrayOpenClickCommand;
 
-            MenuItem mi_Close = new MenuItem();
-            mi_Close.Header = "Выход";
-            mi_Close.Command = mainWindowVM.TrayCloseClickCommand;
+        //    MenuItem mi_Close = new MenuItem();
+        //    mi_Close.Header = "Выход";
+        //    mi_Close.Command = mainWindowVM.TrayCloseClickCommand;
 
-            trayContextMenu.Items.Add(mi_Open);
-            trayContextMenu.Items.Add(mi_Close);
+        //    trayContextMenu.Items.Add(mi_Open);
+        //    trayContextMenu.Items.Add(mi_Close);
 
-            notifyIcon.ContextMenu = trayContextMenu;
+        //    notifyIcon.ContextMenu = trayContextMenu;
 
-            //Подписка на событие открытия основного окна
-            mainWindowVM.OnOpenMainWindow += (sender, args) =>
-            {
-                //Показать основное окно
-                this.Show();
-                this.WindowState = WindowState.Normal;
-                this.Activate();
-            };
-            mainWindowVM.OnCloseMainWindow += (sender, args) => this.Close();
+        //    //Подписка на событие открытия основного окна
+        //    mainWindowVM.OnOpenMainWindow += (sender, args) =>
+        //    {
+        //        //Показать основное окно
+        //        this.Show();
+        //        this.WindowState = WindowState.Normal;
+        //        this.Activate();
+        //    };
+        //    mainWindowVM.OnCloseMainWindow += (sender, args) => this.Close();
 
-            mainWindowVM.OnShowNotification += (sender, args) => ShowNotification("Revit", mainWindowVM.TextInfo);
-        }
+        //    mainWindowVM.OnShowNotification += (sender, args) => ShowNotification("Revit", mainWindowVM.TextInfo);
+        //}
 
         private void ShowNotification(string title, string message)
         {

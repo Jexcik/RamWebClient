@@ -198,9 +198,9 @@
     <Compile Include="Services\Interfaces\IFileChangeDataService.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\ExternalServicesVM.cs" />
+    <Compile Include="ViewModels\Registrator.cs" />
     <Compile Include="ViewModels\TabItem\ExternalServTabVM.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
-    <Compile Include="ViewModels\TabItem\ViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
