@@ -8,14 +8,12 @@ using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.ViewModels
 {
-    public static class Registrator
+    public static class ViewModelsRegistrator
     {
-        public static IServiceCollection RegisterViewModel(this IServiceCollection services) 
+        public static IServiceCollection AddViewModel(this IServiceCollection services) 
         {
             services.AddSingleton<ExternalServTabVM>();
             services.AddSingleton<UpdateCenterTabVM>();
-            services.AddSingleton<ExternalServicesVM>();
-
             return services;
         }
     }

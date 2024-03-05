@@ -14,7 +14,7 @@ namespace WPFclient.Services
 
         public List<FileChangeInfo> FileChanges { get; set; }
 
-        private const string filePath = @"C:\Users\User\Desktop";
+        private const string filePath = @"I:\03. Проекты\IDE-0156 РД_Кумроч_ЗИФ-ОИ_1-я оч_БГК\4. Работа\BIM Проект\02_Общие данные";
 
         public FileChangeDataService()
         {

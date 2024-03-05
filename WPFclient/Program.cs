@@ -8,7 +8,7 @@ namespace WPFclient
     public static class Program
     {
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
             var app = new App();
             app.InitializeComponent();
@@ -16,11 +16,11 @@ namespace WPFclient
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseContentRoot(App.CurrentDirectory)
-                .ConfigureAppConfiguration((host, cfg) => cfg
-                .SetBasePath(App.CurrentDirectory)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true))
-            .ConfigureServices(App.ConfigureServices);
+                    Host.CreateDefaultBuilder(args)
+                        .UseContentRoot(App.CurrentDirectory)
+                        .ConfigureAppConfiguration((host, cfg) => cfg
+                        .SetBasePath(App.CurrentDirectory)
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true))
+                    .ConfigureServices(App.ConfigureServices);
     }
 }

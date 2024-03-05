@@ -267,7 +267,6 @@ namespace WPFclient.ViewModels.TabItem
                         {
                             TextInfo = "Вышли новые обновления!\nДля установки закройте Revit.";
                             OnShowNotification?.Invoke(this, EventArgs.Empty);
-                            TextInfo = string.Empty;
                         }
                     }
                 }

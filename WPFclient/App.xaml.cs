@@ -22,31 +22,29 @@ namespace WPFclient.Views
 
         public static IHost Host = _Host ?? Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
+        public static IServiceProvider Services => Host.Services;
+
         protected override async void OnStartup(StartupEventArgs e)
         {
-            IsDesignMode = false;
             var host = Host;
+
             base.OnStartup(e);
 
-            await host.StartAsync().ConfigureAwait(false);
+            await host.StartAsync();
         }
 
         protected override async void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
 
-            var host = Host;
-            await host.StopAsync().ConfigureAwait(false);
-            host.Dispose();
-            _Host = null;
+            using (Host) await Host.StopAsync();
         }
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddSingleton<IFileChangeDataService, FileChangeDataService>();
-            services.AddSingleton<MainWindow>();
+            services.AddServices();
 
-            services.RegisterViewModel();
+            services.AddViewModel();
         }
 
         public static string CurrentDirectory => IsDesignMode

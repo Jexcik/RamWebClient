@@ -3,18 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:WPFclient.ViewModels.TabItem"
+        xmlns:vm="clr-namespace:WPFclient.ViewModels"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         Height="500" 
         Width="500"
         WindowStartupLocation="CenterScreen" 
         Icon="/Resources/logoRAM.ico"
         ResizeMode="CanResize"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        DataContext="{Binding Source={StaticResource Locator}}">
 
     <Window.Resources>
-        <vm:UpdateCenterTabVM x:Key="MainWindowVM"/>
-        <vm:ExternalServTabVM x:Key="ExternalServTabVM"/>
+        <vm:ViewModelLocator x:Key="Locator"/>
     </Window.Resources>
 
     <Grid>
@@ -85,7 +85,8 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabItem Header="Центр обновлений" DataContext="{StaticResource MainWindowVM}">
+            
+            <TabItem Header="Центр обновлений" DataContext="{Binding UpdateCenterTabVM, Source={StaticResource Locator}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -352,7 +353,7 @@
             </TabItem>
 
             <TabItem 
-                Header="Внешние службы" DataContext="{StaticResource ExternalServTabVM}">
+                Header="Внешние службы" DataContext="{Binding ExternalServTabVM, Source={StaticResource Locator}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -471,6 +472,7 @@
                             </Button>
                         </StackPanel>
                     </DockPanel>
+
                 </Grid>
             </TabItem>
 

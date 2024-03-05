@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using WPFclient.Models;
-using WPFclient.Services;
 using WPFclient.Services.Interfaces;
 using WPFclient.ViewModels.Base;
 
@@ -8,12 +7,9 @@ namespace WPFclient.ViewModels
 {
     public class ExternalServicesVM : ViewModelBase
     {
-        private readonly IFileChangeDataService _fileChangeDataService;
         public ExternalServicesVM(IFileChangeDataService fileChangeDataService)
         {
-            _fileChangeDataService = fileChangeDataService;
-
-            fileChanges = new ObservableCollection<FileChangeInfo>(_fileChangeDataService.FileChanges);
+            fileChanges = new ObservableCollection<FileChangeInfo>(fileChangeDataService.FileChanges);
         }
 
         private ObservableCollection<FileChangeInfo> fileChanges;

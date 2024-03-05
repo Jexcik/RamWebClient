@@ -196,9 +196,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Services\FileChangeDataService.cs" />
     <Compile Include="Services\Interfaces\IFileChangeDataService.cs" />
+    <Compile Include="Services\ServicesRegistrator.cs" />
     <Compile Include="Validation\CustomValidationRule.cs" />
     <Compile Include="ViewModels\ExternalServicesVM.cs" />
-    <Compile Include="ViewModels\Registrator.cs" />
+    <Compile Include="ViewModels\ViewModelsRegistrator.cs" />
     <Compile Include="ViewModels\TabItem\ExternalServTabVM.cs" />
     <Compile Include="ViewModels\RegisterVM.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />

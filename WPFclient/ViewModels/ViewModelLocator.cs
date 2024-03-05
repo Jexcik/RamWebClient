@@ -6,8 +6,8 @@ namespace WPFclient.ViewModels
 {
     public class ViewModelLocator
     {
-        public UpdateCenterTabVM UpdateCenterTabVM=>App.Host.Services.GetRequiredService<UpdateCenterTabVM>();
+        public ExternalServTabVM ExternalServTabVM => App.Host.Services.GetRequiredService<ExternalServTabVM>();
+        public UpdateCenterTabVM UpdateCenterTabVM => App.Host.Services.GetRequiredService<UpdateCenterTabVM>();
 
-        public ExternalServTabVM ExternalServTabVM=App.Host.Services.GetRequiredService<ExternalServTabVM>();
     }
 }

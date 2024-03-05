@@ -16,7 +16,6 @@ namespace WPFclient.Views
     {
         private TaskbarIcon notifyIcon;
 
-        UpdateCenterTabVM _updateCenterTabVM;
         public MainWindow()
         {
             InitializeComponent();

@@ -10,10 +10,14 @@ namespace WPFclient.ViewModels.TabItem
     public class ExternalServTabVM : ViewModelBase
     {
         private readonly IFileChangeDataService _fileChangeDataService;
-        public ExternalServTabVM()
+
+        public ExternalServTabVM(IFileChangeDataService fileChangeDataService)
         {
+            _fileChangeDataService = fileChangeDataService;
+
             OpenMonitoringCommand = new RelayCommand(OpenMonitoring, p => true);
         }
+
         #region Command
         public ICommand OpenMonitoringCommand { get; }
 
@@ -21,7 +25,7 @@ namespace WPFclient.ViewModels.TabItem
         {
             MonitoringWindow monitoringWindow = new MonitoringWindow();
 
-            monitoringWindow.DataContext = new ExternalServicesVM(_fileChangeDataService);
+            monitoringWindow.DataContext = _fileChangeDataService;
 
             monitoringWindow.WindowState=System.Windows.WindowState.Maximized;
 
