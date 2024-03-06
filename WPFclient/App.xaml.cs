@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using WPFclient.Services;
@@ -16,6 +17,10 @@ namespace WPFclient.Views
     /// </summary>
     public partial class App
     {
+        public static Window FocusedWindow => Current.Windows.Cast<Window>().FirstOrDefault(w => w.IsFocused);
+
+        public static Window ActivedWindow => Current.Windows.Cast<Window>().FirstOrDefault(w => w.IsActive);
+
         public static bool IsDesignMode { get; private set; } = true;
 
         private static IHost _Host;

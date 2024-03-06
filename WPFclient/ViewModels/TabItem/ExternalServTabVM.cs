@@ -1,7 +1,5 @@
 ﻿using System.Windows.Input;
 using WPFclient.Infrastructure.Commands;
-using WPFclient.Services;
-using WPFclient.Services.Interfaces;
 using WPFclient.ViewModels.Base;
 using WPFclient.Views;
 
@@ -9,11 +7,11 @@ namespace WPFclient.ViewModels.TabItem
 {
     public class ExternalServTabVM : ViewModelBase
     {
-        private readonly IFileChangeDataService _fileChangeDataService;
+        private readonly ExternalServicesVM _externalServicesVM;
 
-        public ExternalServTabVM(IFileChangeDataService fileChangeDataService)
+        public ExternalServTabVM(ExternalServicesVM externalServicesVM)
         {
-            _fileChangeDataService = fileChangeDataService;
+            _externalServicesVM = externalServicesVM;
 
             OpenMonitoringCommand = new RelayCommand(OpenMonitoring, p => true);
         }
@@ -25,9 +23,9 @@ namespace WPFclient.ViewModels.TabItem
         {
             MonitoringWindow monitoringWindow = new MonitoringWindow();
 
-            monitoringWindow.DataContext = _fileChangeDataService;
+            monitoringWindow.DataContext = _externalServicesVM;
 
-            monitoringWindow.WindowState=System.Windows.WindowState.Maximized;
+            monitoringWindow.WindowState = System.Windows.WindowState.Maximized;
 
             monitoringWindow.Show();
         }

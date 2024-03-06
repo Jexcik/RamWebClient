@@ -14,6 +14,8 @@ namespace WPFclient.ViewModels
         {
             services.AddSingleton<ExternalServTabVM>();
             services.AddSingleton<UpdateCenterTabVM>();
+            services.AddSingleton<ExternalServicesVM>();
+
             return services;
         }
     }

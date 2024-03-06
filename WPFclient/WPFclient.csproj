@@ -187,6 +187,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\Commands\CloseWindow.cs" />
     <Compile Include="Infrastructure\Converters\Converter.cs" />
     <Compile Include="Models\ApiManager.cs" />
     <Compile Include="Models\FileChangeInfo.cs" />
@@ -209,6 +210,10 @@
     <Compile Include="Views\MonitoringWindow.xaml.cs">
       <DependentUpon>MonitoringWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Infrastructure\Commands\Commands.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -9,7 +9,7 @@
         Width="500"
         WindowStartupLocation="CenterScreen" 
         Icon="/Resources/logoRAM.ico"
-        ResizeMode="CanResize"
+        ResizeMode="NoResize"
         ShowInTaskbar="False"
         DataContext="{Binding Source={StaticResource Locator}}">
 
