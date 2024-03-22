@@ -470,6 +470,8 @@
                                     Мониторинг<LineBreak/>папок
                                 </TextBlock>
                             </Button>
+
+                            <Button Margin="5,0,0,0" Width="100" Content="Close" Command="{StaticResource CloseWindowCommand}"/>
                         </StackPanel>
                     </DockPanel>
 

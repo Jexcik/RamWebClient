@@ -6,9 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using WPFclient.Services;
-using WPFclient.Services.Interfaces;
 using WPFclient.ViewModels;
-using WPFclient.ViewModels.TabItem;
 
 namespace WPFclient.Views
 {
